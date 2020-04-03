@@ -1,0 +1,11 @@
+language: ruby
+cache: bundler
+rvm:
+  - 2.3
+  - 2.4
+  - 2.5
+script:
+  - bundle install --path vendor/bundle
+  - bundle exec rspec
+  - gem build nodeum_sdk.gemspec
+  - gem install ./nodeum_sdk-1.85.0.gem
