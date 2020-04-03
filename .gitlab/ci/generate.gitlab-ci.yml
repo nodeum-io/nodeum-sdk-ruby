@@ -1,0 +1,51 @@
+variables:
+  SWAGGER_REF: master
+
+Generate SDK:
+  image: $CI_REGISTRY/nodeum/web/swagger:$SWAGGER_REF
+  stage: build
+  script:
+    - >-
+      docker-entrypoint.sh generate
+      -i /swagger/api.yml
+      -p sortParamsByRequiredFlag
+      -p gemName=$PACKAGE_NAME
+      -p gemVersion=$PACKAGE_VERSION
+      -p moduleName=Nodeum
+      -g ruby
+      -o $CI_PROJECT_DIR
+  artifacts:
+    paths:
+      - .openapi-generator/
+      - docs/
+      - lib/
+      - spec/
+      - .gemspec
+      - .gitignore
+      - .rspec
+      - .rubocop.yml
+      - .travis.yml
+      - Gemfile
+      - git_push.sh
+      - Rakefile
+      - README.md
+
+Commit SDK:
+  image: docker:git
+  stage: publish
+  dependencies:
+    - Generate SDK
+  except:
+    - tags
+  before_script:
+    - eval $(ssh-agent -s)
+    - echo "$GIT_SSH_PRIV_KEY" | ssh-add -
+    - git config --global user.email "$GITLAB_USER_EMAIL"
+    - git config --global user.name "$GITLAB_USER_NAME"
+    - git remote set-url --add --push origin git@$CI_SERVER_HOST:$CI_PROJECT_PATH.git
+    - mkdir -p ~/.ssh
+    - ssh-keyscan $CI_SERVER_HOST >> ~/.ssh/known_hosts
+  script:
+    - git add .
+    - git commit -m "Generate SDK from $SWAGGER_REF for $PACKAGE_VERSION" || true
+    - git push -o ci.skip origin HEAD:$CI_COMMIT_REF_NAME
