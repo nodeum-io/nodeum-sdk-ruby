@@ -20,7 +20,7 @@ Generate SDK:
       - docs/
       - lib/
       - spec/
-      - .gemspec
+      - $PACKAGE_NAME.gemspec
       - .gitignore
       - .rspec
       - .rubocop.yml
