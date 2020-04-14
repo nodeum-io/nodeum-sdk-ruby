@@ -1,9 +1,8 @@
-variables:
-  SWAGGER_REF: master
-
 Generate SDK:
   image: $CI_REGISTRY/nodeum/web/swagger:$SWAGGER_REF
   stage: build
+  rules:
+    - if: $SWAGGER_REF && $PACKAGE_VERSION
   script:
     - >-
       docker-entrypoint.sh generate
@@ -33,10 +32,11 @@ Generate SDK:
 Commit SDK:
   image: docker:git
   stage: publish
-  dependencies:
-    - Generate SDK
-  except:
-    - tags
+  rules:
+    - if: $SWAGGER_REF && $PACKAGE_VERSION
+  needs:
+    - job: Generate SDK
+      artifacts: true
   before_script:
     - eval $(ssh-agent -s)
     - echo "$GIT_SSH_PRIV_KEY" | ssh-add -
