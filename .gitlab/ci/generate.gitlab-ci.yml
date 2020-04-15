@@ -55,3 +55,19 @@ Commit SDK:
     - git add .
     - git commit -m "Generate SDK from $SWAGGER_REF for $PACKAGE_VERSION" || true
     - git push -o ci.skip origin HEAD:$CI_COMMIT_REF_NAME
+
+Publish SDK:
+  image: ruby:2.7-alpine
+  stage: publish
+  rules:
+    - if: $SWAGGER_REF && $PACKAGE_VERSION
+  needs:
+    - job: Generate SDK
+      artifacts: true
+  before_script:
+    - >-
+      ---
+      :rubygems_api_key: $GEM_API_TOKEN" >> $HOME/.gem/credentials
+    - gem build $PACKAGE_NAME
+  script:
+    - gem push $PACKAGE_NAME-$PACKAGE_VERSION.gem
