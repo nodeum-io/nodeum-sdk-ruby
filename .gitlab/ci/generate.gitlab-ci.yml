@@ -1,3 +1,7 @@
+variables:
+  GITHUB_OWNER: nodeum-io
+  GITHUB_REPOSITORY: nodeum-sdk-ruby
+
 Generate SDK:
   image: $CI_REGISTRY/nodeum/web/swagger:$SWAGGER_REF
   stage: build
@@ -7,6 +11,8 @@ Generate SDK:
     - >-
       docker-entrypoint.sh generate
       -i /swagger/api.yml
+      --git-user-id=$GITHUB_OWNER
+      --git-repo-id=$GITHUB_REPOSITORY
       -p sortParamsByRequiredFlag
       -p gemName=$PACKAGE_NAME
       -p gemVersion=$PACKAGE_VERSION
