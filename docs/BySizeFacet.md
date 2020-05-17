@@ -5,7 +5,9 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **count** | **Integer** |  | [optional] 
+**files_count** | **Integer** |  | [optional] 
 **file_size_sum** | **Integer** |  | [optional] 
+**cost** | **Float** |  | [optional] 
 **less_100_kb** | [**ByDateFacet**](ByDateFacet.md) |  | [optional] 
 **less_1_mb** | [**ByDateFacet**](ByDateFacet.md) |  | [optional] 
 **less_10_mb** | [**ByDateFacet**](ByDateFacet.md) |  | [optional] 
@@ -21,7 +23,9 @@ Name | Type | Description | Notes
 require 'Nodeum'
 
 instance = Nodeum::BySizeFacet.new(count: null,
+                                 files_count: null,
                                  file_size_sum: null,
+                                 cost: null,
                                  less_100_kb: null,
                                  less_1_mb: null,
                                  less_10_mb: null,

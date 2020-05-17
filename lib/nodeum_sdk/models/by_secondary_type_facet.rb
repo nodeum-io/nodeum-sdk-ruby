@@ -14,19 +14,19 @@ require 'date'
 
 module Nodeum
   class BySecondaryTypeFacet < ByDateFacet
-    attr_accessor :secondary_name
+    attr_accessor :sec_pool_name_s
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'secondary_name' => :'secondary_name'
+        :'sec_pool_name_s' => :'sec_pool_name_s'
       }
     end
 
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'secondary_name' => :'BySecondaryBuckets'
+        :'sec_pool_name_s' => :'ByDateFacetBuckets'
       }
     end
 
@@ -62,8 +62,8 @@ module Nodeum
       # call parent's initialize
       super(attributes)
 
-      if attributes.key?(:'secondary_name')
-        self.secondary_name = attributes[:'secondary_name']
+      if attributes.key?(:'sec_pool_name_s')
+        self.sec_pool_name_s = attributes[:'sec_pool_name_s']
       end
     end
 
@@ -85,7 +85,7 @@ module Nodeum
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          secondary_name == o.secondary_name && super(o)
+          sec_pool_name_s == o.sec_pool_name_s && super(o)
     end
 
     # @see the `==` method
@@ -97,7 +97,7 @@ module Nodeum
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [secondary_name].hash
+      [sec_pool_name_s].hash
     end
 
     # Builds the object from hash

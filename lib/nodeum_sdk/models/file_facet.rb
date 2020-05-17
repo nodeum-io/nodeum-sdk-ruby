@@ -13,24 +13,28 @@ OpenAPI Generator version: 4.3.0
 require 'date'
 
 module Nodeum
-  class FileFacet
-    attr_accessor :count
+  class FileFacet < DefaultFacet
+    attr_accessor :files_count
 
     attr_accessor :file_size_sum
+
+    attr_accessor :cost
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'count' => :'count',
-        :'file_size_sum' => :'file_size_sum'
+        :'files_count' => :'files_count',
+        :'file_size_sum' => :'file_size_sum',
+        :'cost' => :'cost'
       }
     end
 
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'count' => :'Integer',
-        :'file_size_sum' => :'Integer'
+        :'files_count' => :'Integer',
+        :'file_size_sum' => :'Integer',
+        :'cost' => :'Float'
       }
     end
 
@@ -38,6 +42,14 @@ module Nodeum
     def self.openapi_nullable
       Set.new([
       ])
+    end
+
+    # List of class defined in allOf (OpenAPI v3)
+    def self.openapi_all_of
+      [
+      :'DefaultFacet',
+      :'FileFacetAllOf'
+      ]
     end
 
     # Initializes the object
@@ -55,26 +67,33 @@ module Nodeum
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'count')
-        self.count = attributes[:'count']
+      # call parent's initialize
+      super(attributes)
+
+      if attributes.key?(:'files_count')
+        self.files_count = attributes[:'files_count']
       end
 
       if attributes.key?(:'file_size_sum')
         self.file_size_sum = attributes[:'file_size_sum']
+      end
+
+      if attributes.key?(:'cost')
+        self.cost = attributes[:'cost']
       end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
     # @return Array for valid properties with the reasons
     def list_invalid_properties
-      invalid_properties = Array.new
+      invalid_properties = super
       invalid_properties
     end
 
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      true
+      true && super
     end
 
     # Checks equality by comparing each attribute.
@@ -82,8 +101,9 @@ module Nodeum
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          count == o.count &&
-          file_size_sum == o.file_size_sum
+          files_count == o.files_count &&
+          file_size_sum == o.file_size_sum &&
+          cost == o.cost && super(o)
     end
 
     # @see the `==` method
@@ -95,7 +115,7 @@ module Nodeum
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [count, file_size_sum].hash
+      [files_count, file_size_sum, cost].hash
     end
 
     # Builds the object from hash
@@ -110,6 +130,7 @@ module Nodeum
     # @return [Object] Returns the model itself
     def build_from_hash(attributes)
       return nil unless attributes.is_a?(Hash)
+      super(attributes)
       self.class.openapi_types.each_pair do |key, type|
         if type =~ /\AArray<(.*)>/i
           # check to ensure the input is an array given that the attribute
@@ -181,7 +202,7 @@ module Nodeum
     # Returns the object in the form of hash
     # @return [Hash] Returns the object in the form of hash
     def to_hash
-      hash = {}
+      hash = super
       self.class.attribute_map.each_pair do |attr, param|
         value = self.send(attr)
         if value.nil?

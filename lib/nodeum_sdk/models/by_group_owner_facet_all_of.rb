@@ -14,19 +14,19 @@ require 'date'
 
 module Nodeum
   class ByGroupOwnerFacetAllOf
-    attr_accessor :group_owner_id
+    attr_accessor :group_owner_id_l
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'group_owner_id' => :'group_owner_id'
+        :'group_owner_id_l' => :'group_owner_id_l'
       }
     end
 
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'group_owner_id' => :'ByDateFacetBuckets'
+        :'group_owner_id_l' => :'ByDateFacetBuckets'
       }
     end
 
@@ -51,8 +51,8 @@ module Nodeum
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'group_owner_id')
-        self.group_owner_id = attributes[:'group_owner_id']
+      if attributes.key?(:'group_owner_id_l')
+        self.group_owner_id_l = attributes[:'group_owner_id_l']
       end
     end
 
@@ -74,7 +74,7 @@ module Nodeum
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          group_owner_id == o.group_owner_id
+          group_owner_id_l == o.group_owner_id_l
     end
 
     # @see the `==` method
@@ -86,7 +86,7 @@ module Nodeum
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [group_owner_id].hash
+      [group_owner_id_l].hash
     end
 
     # Builds the object from hash

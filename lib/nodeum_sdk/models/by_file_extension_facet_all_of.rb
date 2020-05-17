@@ -14,19 +14,19 @@ require 'date'
 
 module Nodeum
   class ByFileExtensionFacetAllOf
-    attr_accessor :file_extension
+    attr_accessor :file_extension_s
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'file_extension' => :'file_extension'
+        :'file_extension_s' => :'file_extension_s'
       }
     end
 
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'file_extension' => :'ByDateFacetBuckets'
+        :'file_extension_s' => :'ByDateFacetBuckets'
       }
     end
 
@@ -51,8 +51,8 @@ module Nodeum
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'file_extension')
-        self.file_extension = attributes[:'file_extension']
+      if attributes.key?(:'file_extension_s')
+        self.file_extension_s = attributes[:'file_extension_s']
       end
     end
 
@@ -74,7 +74,7 @@ module Nodeum
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          file_extension == o.file_extension
+          file_extension_s == o.file_extension_s
     end
 
     # @see the `==` method
@@ -86,7 +86,7 @@ module Nodeum
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [file_extension].hash
+      [file_extension_s].hash
     end
 
     # Builds the object from hash

@@ -19,30 +19,109 @@ module Nodeum
     def initialize(api_client = ApiClient.default)
       @api_client = api_client
     end
-    # TODO
+    # Get statistics about files, grouped by date
+    # **API Key Scope**: statistics / by_date
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
+    # @option opts [String] :date_attr Type of date to facet on
+    # @return [ByDateFacet]
+    def statistics_by_date(opts = {})
+      data, _status_code, _headers = statistics_by_date_with_http_info(opts)
+      data
+    end
+
+    # Get statistics about files, grouped by date
+    # **API Key Scope**: statistics / by_date
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
+    # @option opts [String] :date_attr Type of date to facet on
+    # @return [Array<(ByDateFacet, Integer, Hash)>] ByDateFacet data, response status code and response headers
+    def statistics_by_date_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: StatisticsApi.statistics_by_date ...'
+      end
+      allowable_values = ["file_change_dt", "file_modification_dt", "file_access_dt"]
+      if @api_client.config.client_side_validation && opts[:'date_attr'] && !allowable_values.include?(opts[:'date_attr'])
+        fail ArgumentError, "invalid value for \"date_attr\", must be one of #{allowable_values}"
+      end
+      # resource path
+      local_var_path = '/statistics/by_date'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'q'] = opts[:'q'] if !opts[:'q'].nil?
+      query_params[:'fq'] = @api_client.build_collection_param(opts[:'fq'], :pipe) if !opts[:'fq'].nil?
+      query_params[:'date_attr'] = opts[:'date_attr'] if !opts[:'date_attr'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:body] 
+
+      # return_type
+      return_type = opts[:return_type] || 'ByDateFacet' 
+
+      # auth_names
+      auth_names = opts[:auth_names] || ['BasicAuth', 'BearerAuth']
+
+      new_options = opts.merge(
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: StatisticsApi#statistics_by_date\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # Get statistics about files, grouped by file extension
     # **API Key Scope**: statistics / by_file_extension
     # @param [Hash] opts the optional parameters
     # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
     # @option opts [String] :date_attr Type of date to facet on
+    # @option opts [String] :sort Sort results of facet (default to 'count')
+    # @option opts [Integer] :limit Limit results of facet (default to 10)
     # @return [ByFileExtensionFacet]
     def statistics_by_file_extension(opts = {})
       data, _status_code, _headers = statistics_by_file_extension_with_http_info(opts)
       data
     end
 
-    # TODO
+    # Get statistics about files, grouped by file extension
     # **API Key Scope**: statistics / by_file_extension
     # @param [Hash] opts the optional parameters
     # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
     # @option opts [String] :date_attr Type of date to facet on
+    # @option opts [String] :sort Sort results of facet
+    # @option opts [Integer] :limit Limit results of facet
     # @return [Array<(ByFileExtensionFacet, Integer, Hash)>] ByFileExtensionFacet data, response status code and response headers
     def statistics_by_file_extension_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: StatisticsApi.statistics_by_file_extension ...'
       end
-      allowable_values = ["file_change_date", "file_modification_date", "file_access_date"]
+      allowable_values = ["file_change_dt", "file_modification_dt", "file_access_dt"]
       if @api_client.config.client_side_validation && opts[:'date_attr'] && !allowable_values.include?(opts[:'date_attr'])
         fail ArgumentError, "invalid value for \"date_attr\", must be one of #{allowable_values}"
+      end
+      allowable_values = ["count", "files_count", "file_size_sum", "cost"]
+      if @api_client.config.client_side_validation && opts[:'sort'] && !allowable_values.include?(opts[:'sort'])
+        fail ArgumentError, "invalid value for \"sort\", must be one of #{allowable_values}"
       end
       # resource path
       local_var_path = '/statistics/by_file_extension'
@@ -50,7 +129,10 @@ module Nodeum
       # query parameters
       query_params = opts[:query_params] || {}
       query_params[:'q'] = opts[:'q'] if !opts[:'q'].nil?
+      query_params[:'fq'] = @api_client.build_collection_param(opts[:'fq'], :pipe) if !opts[:'fq'].nil?
       query_params[:'date_attr'] = opts[:'date_attr'] if !opts[:'date_attr'].nil?
+      query_params[:'sort'] = opts[:'sort'] if !opts[:'sort'].nil?
+      query_params[:'limit'] = opts[:'limit'] if !opts[:'limit'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -85,30 +167,40 @@ module Nodeum
       return data, status_code, headers
     end
 
-    # TODO
+    # Get statistics about files, grouped by owner (group)
     # **API Key Scope**: statistics / by_group_owner
     # @param [Hash] opts the optional parameters
     # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
     # @option opts [String] :date_attr Type of date to facet on
+    # @option opts [String] :sort Sort results of facet (default to 'count')
+    # @option opts [Integer] :limit Limit results of facet (default to 10)
     # @return [ByGroupOwnerFacet]
     def statistics_by_group_owner(opts = {})
       data, _status_code, _headers = statistics_by_group_owner_with_http_info(opts)
       data
     end
 
-    # TODO
+    # Get statistics about files, grouped by owner (group)
     # **API Key Scope**: statistics / by_group_owner
     # @param [Hash] opts the optional parameters
     # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
     # @option opts [String] :date_attr Type of date to facet on
+    # @option opts [String] :sort Sort results of facet
+    # @option opts [Integer] :limit Limit results of facet
     # @return [Array<(ByGroupOwnerFacet, Integer, Hash)>] ByGroupOwnerFacet data, response status code and response headers
     def statistics_by_group_owner_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: StatisticsApi.statistics_by_group_owner ...'
       end
-      allowable_values = ["file_change_date", "file_modification_date", "file_access_date"]
+      allowable_values = ["file_change_dt", "file_modification_dt", "file_access_dt"]
       if @api_client.config.client_side_validation && opts[:'date_attr'] && !allowable_values.include?(opts[:'date_attr'])
         fail ArgumentError, "invalid value for \"date_attr\", must be one of #{allowable_values}"
+      end
+      allowable_values = ["count", "files_count", "file_size_sum", "cost"]
+      if @api_client.config.client_side_validation && opts[:'sort'] && !allowable_values.include?(opts[:'sort'])
+        fail ArgumentError, "invalid value for \"sort\", must be one of #{allowable_values}"
       end
       # resource path
       local_var_path = '/statistics/by_group_owner'
@@ -116,7 +208,10 @@ module Nodeum
       # query parameters
       query_params = opts[:query_params] || {}
       query_params[:'q'] = opts[:'q'] if !opts[:'q'].nil?
+      query_params[:'fq'] = @api_client.build_collection_param(opts[:'fq'], :pipe) if !opts[:'fq'].nil?
       query_params[:'date_attr'] = opts[:'date_attr'] if !opts[:'date_attr'].nil?
+      query_params[:'sort'] = opts[:'sort'] if !opts[:'sort'].nil?
+      query_params[:'limit'] = opts[:'limit'] if !opts[:'limit'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -151,30 +246,119 @@ module Nodeum
       return data, status_code, headers
     end
 
-    # TODO
+    # Get statistics about files, grouped by primary Cloud
+    # **API Key Scope**: statistics / by_primary_cloud
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
+    # @option opts [String] :date_attr Type of date to facet on
+    # @option opts [String] :sort Sort results of facet (default to 'count')
+    # @option opts [Integer] :limit Limit results of facet (default to 10)
+    # @return [ByPrimaryCloudFacet]
+    def statistics_by_primary_cloud(opts = {})
+      data, _status_code, _headers = statistics_by_primary_cloud_with_http_info(opts)
+      data
+    end
+
+    # Get statistics about files, grouped by primary Cloud
+    # **API Key Scope**: statistics / by_primary_cloud
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
+    # @option opts [String] :date_attr Type of date to facet on
+    # @option opts [String] :sort Sort results of facet
+    # @option opts [Integer] :limit Limit results of facet
+    # @return [Array<(ByPrimaryCloudFacet, Integer, Hash)>] ByPrimaryCloudFacet data, response status code and response headers
+    def statistics_by_primary_cloud_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: StatisticsApi.statistics_by_primary_cloud ...'
+      end
+      allowable_values = ["file_change_dt", "file_modification_dt", "file_access_dt"]
+      if @api_client.config.client_side_validation && opts[:'date_attr'] && !allowable_values.include?(opts[:'date_attr'])
+        fail ArgumentError, "invalid value for \"date_attr\", must be one of #{allowable_values}"
+      end
+      allowable_values = ["count", "files_count", "file_size_sum", "cost"]
+      if @api_client.config.client_side_validation && opts[:'sort'] && !allowable_values.include?(opts[:'sort'])
+        fail ArgumentError, "invalid value for \"sort\", must be one of #{allowable_values}"
+      end
+      # resource path
+      local_var_path = '/statistics/by_primary_cloud'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'q'] = opts[:'q'] if !opts[:'q'].nil?
+      query_params[:'fq'] = @api_client.build_collection_param(opts[:'fq'], :pipe) if !opts[:'fq'].nil?
+      query_params[:'date_attr'] = opts[:'date_attr'] if !opts[:'date_attr'].nil?
+      query_params[:'sort'] = opts[:'sort'] if !opts[:'sort'].nil?
+      query_params[:'limit'] = opts[:'limit'] if !opts[:'limit'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:body] 
+
+      # return_type
+      return_type = opts[:return_type] || 'ByPrimaryCloudFacet' 
+
+      # auth_names
+      auth_names = opts[:auth_names] || ['BasicAuth', 'BearerAuth']
+
+      new_options = opts.merge(
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: StatisticsApi#statistics_by_primary_cloud\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # Get statistics about files, grouped by primary storages
     # **API Key Scope**: statistics / by_primary_name
     # @param [Hash] opts the optional parameters
     # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
     # @option opts [String] :date_attr Type of date to facet on
+    # @option opts [String] :sort Sort results of facet (default to 'count')
+    # @option opts [Integer] :limit Limit results of facet (default to 10)
     # @return [ByPrimaryFacet]
     def statistics_by_primary_name(opts = {})
       data, _status_code, _headers = statistics_by_primary_name_with_http_info(opts)
       data
     end
 
-    # TODO
+    # Get statistics about files, grouped by primary storages
     # **API Key Scope**: statistics / by_primary_name
     # @param [Hash] opts the optional parameters
     # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
     # @option opts [String] :date_attr Type of date to facet on
+    # @option opts [String] :sort Sort results of facet
+    # @option opts [Integer] :limit Limit results of facet
     # @return [Array<(ByPrimaryFacet, Integer, Hash)>] ByPrimaryFacet data, response status code and response headers
     def statistics_by_primary_name_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: StatisticsApi.statistics_by_primary_name ...'
       end
-      allowable_values = ["file_change_date", "file_modification_date", "file_access_date"]
+      allowable_values = ["file_change_dt", "file_modification_dt", "file_access_dt"]
       if @api_client.config.client_side_validation && opts[:'date_attr'] && !allowable_values.include?(opts[:'date_attr'])
         fail ArgumentError, "invalid value for \"date_attr\", must be one of #{allowable_values}"
+      end
+      allowable_values = ["count", "files_count", "file_size_sum", "cost"]
+      if @api_client.config.client_side_validation && opts[:'sort'] && !allowable_values.include?(opts[:'sort'])
+        fail ArgumentError, "invalid value for \"sort\", must be one of #{allowable_values}"
       end
       # resource path
       local_var_path = '/statistics/by_primary_name'
@@ -182,7 +366,10 @@ module Nodeum
       # query parameters
       query_params = opts[:query_params] || {}
       query_params[:'q'] = opts[:'q'] if !opts[:'q'].nil?
+      query_params[:'fq'] = @api_client.build_collection_param(opts[:'fq'], :pipe) if !opts[:'fq'].nil?
       query_params[:'date_attr'] = opts[:'date_attr'] if !opts[:'date_attr'].nil?
+      query_params[:'sort'] = opts[:'sort'] if !opts[:'sort'].nil?
+      query_params[:'limit'] = opts[:'limit'] if !opts[:'limit'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -217,38 +404,51 @@ module Nodeum
       return data, status_code, headers
     end
 
-    # TODO
-    # **API Key Scope**: statistics / by_secondary_storage
+    # Get statistics about files, grouped by primary NAS
+    # **API Key Scope**: statistics / by_primary_nas
     # @param [Hash] opts the optional parameters
     # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
     # @option opts [String] :date_attr Type of date to facet on
-    # @return [BySecondaryFacet]
-    def statistics_by_secondary_storage(opts = {})
-      data, _status_code, _headers = statistics_by_secondary_storage_with_http_info(opts)
+    # @option opts [String] :sort Sort results of facet (default to 'count')
+    # @option opts [Integer] :limit Limit results of facet (default to 10)
+    # @return [ByPrimaryNasFacet]
+    def statistics_by_primary_nas(opts = {})
+      data, _status_code, _headers = statistics_by_primary_nas_with_http_info(opts)
       data
     end
 
-    # TODO
-    # **API Key Scope**: statistics / by_secondary_storage
+    # Get statistics about files, grouped by primary NAS
+    # **API Key Scope**: statistics / by_primary_nas
     # @param [Hash] opts the optional parameters
     # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
     # @option opts [String] :date_attr Type of date to facet on
-    # @return [Array<(BySecondaryFacet, Integer, Hash)>] BySecondaryFacet data, response status code and response headers
-    def statistics_by_secondary_storage_with_http_info(opts = {})
+    # @option opts [String] :sort Sort results of facet
+    # @option opts [Integer] :limit Limit results of facet
+    # @return [Array<(ByPrimaryNasFacet, Integer, Hash)>] ByPrimaryNasFacet data, response status code and response headers
+    def statistics_by_primary_nas_with_http_info(opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug 'Calling API: StatisticsApi.statistics_by_secondary_storage ...'
+        @api_client.config.logger.debug 'Calling API: StatisticsApi.statistics_by_primary_nas ...'
       end
-      allowable_values = ["file_change_date", "file_modification_date", "file_access_date"]
+      allowable_values = ["file_change_dt", "file_modification_dt", "file_access_dt"]
       if @api_client.config.client_side_validation && opts[:'date_attr'] && !allowable_values.include?(opts[:'date_attr'])
         fail ArgumentError, "invalid value for \"date_attr\", must be one of #{allowable_values}"
       end
+      allowable_values = ["count", "files_count", "file_size_sum", "cost"]
+      if @api_client.config.client_side_validation && opts[:'sort'] && !allowable_values.include?(opts[:'sort'])
+        fail ArgumentError, "invalid value for \"sort\", must be one of #{allowable_values}"
+      end
       # resource path
-      local_var_path = '/statistics/by_secondary_storage'
+      local_var_path = '/statistics/by_primary_nas'
 
       # query parameters
       query_params = opts[:query_params] || {}
       query_params[:'q'] = opts[:'q'] if !opts[:'q'].nil?
+      query_params[:'fq'] = @api_client.build_collection_param(opts[:'fq'], :pipe) if !opts[:'fq'].nil?
       query_params[:'date_attr'] = opts[:'date_attr'] if !opts[:'date_attr'].nil?
+      query_params[:'sort'] = opts[:'sort'] if !opts[:'sort'].nil?
+      query_params[:'limit'] = opts[:'limit'] if !opts[:'limit'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -262,7 +462,323 @@ module Nodeum
       post_body = opts[:body] 
 
       # return_type
-      return_type = opts[:return_type] || 'BySecondaryFacet' 
+      return_type = opts[:return_type] || 'ByPrimaryNasFacet' 
+
+      # auth_names
+      auth_names = opts[:auth_names] || ['BasicAuth', 'BearerAuth']
+
+      new_options = opts.merge(
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: StatisticsApi#statistics_by_primary_nas\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # Get statistics about files, grouped by primary storage
+    # **API Key Scope**: statistics / by_primary_storage
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
+    # @option opts [String] :date_attr Type of date to facet on
+    # @option opts [String] :sort Sort results of facet (default to 'count')
+    # @option opts [Integer] :limit Limit results of facet (default to 10)
+    # @return [ByPrimaryStorageFacet]
+    def statistics_by_primary_storage(opts = {})
+      data, _status_code, _headers = statistics_by_primary_storage_with_http_info(opts)
+      data
+    end
+
+    # Get statistics about files, grouped by primary storage
+    # **API Key Scope**: statistics / by_primary_storage
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
+    # @option opts [String] :date_attr Type of date to facet on
+    # @option opts [String] :sort Sort results of facet
+    # @option opts [Integer] :limit Limit results of facet
+    # @return [Array<(ByPrimaryStorageFacet, Integer, Hash)>] ByPrimaryStorageFacet data, response status code and response headers
+    def statistics_by_primary_storage_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: StatisticsApi.statistics_by_primary_storage ...'
+      end
+      allowable_values = ["file_change_dt", "file_modification_dt", "file_access_dt"]
+      if @api_client.config.client_side_validation && opts[:'date_attr'] && !allowable_values.include?(opts[:'date_attr'])
+        fail ArgumentError, "invalid value for \"date_attr\", must be one of #{allowable_values}"
+      end
+      allowable_values = ["count", "files_count", "file_size_sum", "cost"]
+      if @api_client.config.client_side_validation && opts[:'sort'] && !allowable_values.include?(opts[:'sort'])
+        fail ArgumentError, "invalid value for \"sort\", must be one of #{allowable_values}"
+      end
+      # resource path
+      local_var_path = '/statistics/by_primary_storage'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'q'] = opts[:'q'] if !opts[:'q'].nil?
+      query_params[:'fq'] = @api_client.build_collection_param(opts[:'fq'], :pipe) if !opts[:'fq'].nil?
+      query_params[:'date_attr'] = opts[:'date_attr'] if !opts[:'date_attr'].nil?
+      query_params[:'sort'] = opts[:'sort'] if !opts[:'sort'].nil?
+      query_params[:'limit'] = opts[:'limit'] if !opts[:'limit'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:body] 
+
+      # return_type
+      return_type = opts[:return_type] || 'ByPrimaryStorageFacet' 
+
+      # auth_names
+      auth_names = opts[:auth_names] || ['BasicAuth', 'BearerAuth']
+
+      new_options = opts.merge(
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: StatisticsApi#statistics_by_primary_storage\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # Get statistics about files, grouped by secondary Cloud
+    # **API Key Scope**: statistics / by_secondary_cloud
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
+    # @option opts [String] :date_attr Type of date to facet on
+    # @option opts [String] :sort Sort results of facet (default to 'count')
+    # @option opts [Integer] :limit Limit results of facet (default to 10)
+    # @return [BySecondaryCloudFacet]
+    def statistics_by_secondary_cloud(opts = {})
+      data, _status_code, _headers = statistics_by_secondary_cloud_with_http_info(opts)
+      data
+    end
+
+    # Get statistics about files, grouped by secondary Cloud
+    # **API Key Scope**: statistics / by_secondary_cloud
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
+    # @option opts [String] :date_attr Type of date to facet on
+    # @option opts [String] :sort Sort results of facet
+    # @option opts [Integer] :limit Limit results of facet
+    # @return [Array<(BySecondaryCloudFacet, Integer, Hash)>] BySecondaryCloudFacet data, response status code and response headers
+    def statistics_by_secondary_cloud_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: StatisticsApi.statistics_by_secondary_cloud ...'
+      end
+      allowable_values = ["file_change_dt", "file_modification_dt", "file_access_dt"]
+      if @api_client.config.client_side_validation && opts[:'date_attr'] && !allowable_values.include?(opts[:'date_attr'])
+        fail ArgumentError, "invalid value for \"date_attr\", must be one of #{allowable_values}"
+      end
+      allowable_values = ["count", "files_count", "file_size_sum", "cost"]
+      if @api_client.config.client_side_validation && opts[:'sort'] && !allowable_values.include?(opts[:'sort'])
+        fail ArgumentError, "invalid value for \"sort\", must be one of #{allowable_values}"
+      end
+      # resource path
+      local_var_path = '/statistics/by_secondary_cloud'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'q'] = opts[:'q'] if !opts[:'q'].nil?
+      query_params[:'fq'] = @api_client.build_collection_param(opts[:'fq'], :pipe) if !opts[:'fq'].nil?
+      query_params[:'date_attr'] = opts[:'date_attr'] if !opts[:'date_attr'].nil?
+      query_params[:'sort'] = opts[:'sort'] if !opts[:'sort'].nil?
+      query_params[:'limit'] = opts[:'limit'] if !opts[:'limit'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:body] 
+
+      # return_type
+      return_type = opts[:return_type] || 'BySecondaryCloudFacet' 
+
+      # auth_names
+      auth_names = opts[:auth_names] || ['BasicAuth', 'BearerAuth']
+
+      new_options = opts.merge(
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: StatisticsApi#statistics_by_secondary_cloud\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # Get statistics about files, grouped by secondary NAS
+    # **API Key Scope**: statistics / by_secondary_nas
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
+    # @option opts [String] :date_attr Type of date to facet on
+    # @option opts [String] :sort Sort results of facet (default to 'count')
+    # @option opts [Integer] :limit Limit results of facet (default to 10)
+    # @return [BySecondaryNasFacet]
+    def statistics_by_secondary_nas(opts = {})
+      data, _status_code, _headers = statistics_by_secondary_nas_with_http_info(opts)
+      data
+    end
+
+    # Get statistics about files, grouped by secondary NAS
+    # **API Key Scope**: statistics / by_secondary_nas
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
+    # @option opts [String] :date_attr Type of date to facet on
+    # @option opts [String] :sort Sort results of facet
+    # @option opts [Integer] :limit Limit results of facet
+    # @return [Array<(BySecondaryNasFacet, Integer, Hash)>] BySecondaryNasFacet data, response status code and response headers
+    def statistics_by_secondary_nas_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: StatisticsApi.statistics_by_secondary_nas ...'
+      end
+      allowable_values = ["file_change_dt", "file_modification_dt", "file_access_dt"]
+      if @api_client.config.client_side_validation && opts[:'date_attr'] && !allowable_values.include?(opts[:'date_attr'])
+        fail ArgumentError, "invalid value for \"date_attr\", must be one of #{allowable_values}"
+      end
+      allowable_values = ["count", "files_count", "file_size_sum", "cost"]
+      if @api_client.config.client_side_validation && opts[:'sort'] && !allowable_values.include?(opts[:'sort'])
+        fail ArgumentError, "invalid value for \"sort\", must be one of #{allowable_values}"
+      end
+      # resource path
+      local_var_path = '/statistics/by_secondary_nas'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'q'] = opts[:'q'] if !opts[:'q'].nil?
+      query_params[:'fq'] = @api_client.build_collection_param(opts[:'fq'], :pipe) if !opts[:'fq'].nil?
+      query_params[:'date_attr'] = opts[:'date_attr'] if !opts[:'date_attr'].nil?
+      query_params[:'sort'] = opts[:'sort'] if !opts[:'sort'].nil?
+      query_params[:'limit'] = opts[:'limit'] if !opts[:'limit'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:body] 
+
+      # return_type
+      return_type = opts[:return_type] || 'BySecondaryNasFacet' 
+
+      # auth_names
+      auth_names = opts[:auth_names] || ['BasicAuth', 'BearerAuth']
+
+      new_options = opts.merge(
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: StatisticsApi#statistics_by_secondary_nas\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # Get statistics about files, grouped by secondary storage
+    # **API Key Scope**: statistics / by_secondary_storage
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
+    # @option opts [String] :date_attr Type of date to facet on
+    # @option opts [String] :sort Sort results of facet (default to 'count')
+    # @option opts [Integer] :limit Limit results of facet (default to 10)
+    # @return [BySecondaryStorageFacet]
+    def statistics_by_secondary_storage(opts = {})
+      data, _status_code, _headers = statistics_by_secondary_storage_with_http_info(opts)
+      data
+    end
+
+    # Get statistics about files, grouped by secondary storage
+    # **API Key Scope**: statistics / by_secondary_storage
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
+    # @option opts [String] :date_attr Type of date to facet on
+    # @option opts [String] :sort Sort results of facet
+    # @option opts [Integer] :limit Limit results of facet
+    # @return [Array<(BySecondaryStorageFacet, Integer, Hash)>] BySecondaryStorageFacet data, response status code and response headers
+    def statistics_by_secondary_storage_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: StatisticsApi.statistics_by_secondary_storage ...'
+      end
+      allowable_values = ["file_change_dt", "file_modification_dt", "file_access_dt"]
+      if @api_client.config.client_side_validation && opts[:'date_attr'] && !allowable_values.include?(opts[:'date_attr'])
+        fail ArgumentError, "invalid value for \"date_attr\", must be one of #{allowable_values}"
+      end
+      allowable_values = ["count", "files_count", "file_size_sum", "cost"]
+      if @api_client.config.client_side_validation && opts[:'sort'] && !allowable_values.include?(opts[:'sort'])
+        fail ArgumentError, "invalid value for \"sort\", must be one of #{allowable_values}"
+      end
+      # resource path
+      local_var_path = '/statistics/by_secondary_storage'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'q'] = opts[:'q'] if !opts[:'q'].nil?
+      query_params[:'fq'] = @api_client.build_collection_param(opts[:'fq'], :pipe) if !opts[:'fq'].nil?
+      query_params[:'date_attr'] = opts[:'date_attr'] if !opts[:'date_attr'].nil?
+      query_params[:'sort'] = opts[:'sort'] if !opts[:'sort'].nil?
+      query_params[:'limit'] = opts[:'limit'] if !opts[:'limit'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:body] 
+
+      # return_type
+      return_type = opts[:return_type] || 'BySecondaryStorageFacet' 
 
       # auth_names
       auth_names = opts[:auth_names] || ['BasicAuth', 'BearerAuth']
@@ -283,10 +799,90 @@ module Nodeum
       return data, status_code, headers
     end
 
-    # TODO
+    # Get statistics about files, grouped by secondary Tape
+    # **API Key Scope**: statistics / by_secondary_tape
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
+    # @option opts [String] :date_attr Type of date to facet on
+    # @option opts [String] :sort Sort results of facet (default to 'count')
+    # @option opts [Integer] :limit Limit results of facet (default to 10)
+    # @return [BySecondaryTapeFacet]
+    def statistics_by_secondary_tape(opts = {})
+      data, _status_code, _headers = statistics_by_secondary_tape_with_http_info(opts)
+      data
+    end
+
+    # Get statistics about files, grouped by secondary Tape
+    # **API Key Scope**: statistics / by_secondary_tape
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
+    # @option opts [String] :date_attr Type of date to facet on
+    # @option opts [String] :sort Sort results of facet
+    # @option opts [Integer] :limit Limit results of facet
+    # @return [Array<(BySecondaryTapeFacet, Integer, Hash)>] BySecondaryTapeFacet data, response status code and response headers
+    def statistics_by_secondary_tape_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: StatisticsApi.statistics_by_secondary_tape ...'
+      end
+      allowable_values = ["file_change_dt", "file_modification_dt", "file_access_dt"]
+      if @api_client.config.client_side_validation && opts[:'date_attr'] && !allowable_values.include?(opts[:'date_attr'])
+        fail ArgumentError, "invalid value for \"date_attr\", must be one of #{allowable_values}"
+      end
+      allowable_values = ["count", "files_count", "file_size_sum", "cost"]
+      if @api_client.config.client_side_validation && opts[:'sort'] && !allowable_values.include?(opts[:'sort'])
+        fail ArgumentError, "invalid value for \"sort\", must be one of #{allowable_values}"
+      end
+      # resource path
+      local_var_path = '/statistics/by_secondary_tape'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'q'] = opts[:'q'] if !opts[:'q'].nil?
+      query_params[:'fq'] = @api_client.build_collection_param(opts[:'fq'], :pipe) if !opts[:'fq'].nil?
+      query_params[:'date_attr'] = opts[:'date_attr'] if !opts[:'date_attr'].nil?
+      query_params[:'sort'] = opts[:'sort'] if !opts[:'sort'].nil?
+      query_params[:'limit'] = opts[:'limit'] if !opts[:'limit'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:body] 
+
+      # return_type
+      return_type = opts[:return_type] || 'BySecondaryTapeFacet' 
+
+      # auth_names
+      auth_names = opts[:auth_names] || ['BasicAuth', 'BearerAuth']
+
+      new_options = opts.merge(
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: StatisticsApi#statistics_by_secondary_tape\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # Get statistics about files, grouped by size
     # **API Key Scope**: statistics / by_size
     # @param [Hash] opts the optional parameters
     # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
     # @option opts [String] :date_attr Type of date to facet on
     # @return [BySizeFacet]
     def statistics_by_size(opts = {})
@@ -294,17 +890,18 @@ module Nodeum
       data
     end
 
-    # TODO
+    # Get statistics about files, grouped by size
     # **API Key Scope**: statistics / by_size
     # @param [Hash] opts the optional parameters
     # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
     # @option opts [String] :date_attr Type of date to facet on
     # @return [Array<(BySizeFacet, Integer, Hash)>] BySizeFacet data, response status code and response headers
     def statistics_by_size_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: StatisticsApi.statistics_by_size ...'
       end
-      allowable_values = ["file_change_date", "file_modification_date", "file_access_date"]
+      allowable_values = ["file_change_dt", "file_modification_dt", "file_access_dt"]
       if @api_client.config.client_side_validation && opts[:'date_attr'] && !allowable_values.include?(opts[:'date_attr'])
         fail ArgumentError, "invalid value for \"date_attr\", must be one of #{allowable_values}"
       end
@@ -314,6 +911,7 @@ module Nodeum
       # query parameters
       query_params = opts[:query_params] || {}
       query_params[:'q'] = opts[:'q'] if !opts[:'q'].nil?
+      query_params[:'fq'] = @api_client.build_collection_param(opts[:'fq'], :pipe) if !opts[:'fq'].nil?
       query_params[:'date_attr'] = opts[:'date_attr'] if !opts[:'date_attr'].nil?
 
       # header parameters
@@ -349,30 +947,40 @@ module Nodeum
       return data, status_code, headers
     end
 
-    # TODO
+    # Get statistics about files, grouped by owner (user)
     # **API Key Scope**: statistics / by_user_owner
     # @param [Hash] opts the optional parameters
     # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
     # @option opts [String] :date_attr Type of date to facet on
+    # @option opts [String] :sort Sort results of facet (default to 'count')
+    # @option opts [Integer] :limit Limit results of facet (default to 10)
     # @return [ByUserOwnerFacet]
     def statistics_by_user_owner(opts = {})
       data, _status_code, _headers = statistics_by_user_owner_with_http_info(opts)
       data
     end
 
-    # TODO
+    # Get statistics about files, grouped by owner (user)
     # **API Key Scope**: statistics / by_user_owner
     # @param [Hash] opts the optional parameters
     # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
     # @option opts [String] :date_attr Type of date to facet on
+    # @option opts [String] :sort Sort results of facet
+    # @option opts [Integer] :limit Limit results of facet
     # @return [Array<(ByUserOwnerFacet, Integer, Hash)>] ByUserOwnerFacet data, response status code and response headers
     def statistics_by_user_owner_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: StatisticsApi.statistics_by_user_owner ...'
       end
-      allowable_values = ["file_change_date", "file_modification_date", "file_access_date"]
+      allowable_values = ["file_change_dt", "file_modification_dt", "file_access_dt"]
       if @api_client.config.client_side_validation && opts[:'date_attr'] && !allowable_values.include?(opts[:'date_attr'])
         fail ArgumentError, "invalid value for \"date_attr\", must be one of #{allowable_values}"
+      end
+      allowable_values = ["count", "files_count", "file_size_sum", "cost"]
+      if @api_client.config.client_side_validation && opts[:'sort'] && !allowable_values.include?(opts[:'sort'])
+        fail ArgumentError, "invalid value for \"sort\", must be one of #{allowable_values}"
       end
       # resource path
       local_var_path = '/statistics/by_user_owner'
@@ -380,7 +988,10 @@ module Nodeum
       # query parameters
       query_params = opts[:query_params] || {}
       query_params[:'q'] = opts[:'q'] if !opts[:'q'].nil?
+      query_params[:'fq'] = @api_client.build_collection_param(opts[:'fq'], :pipe) if !opts[:'fq'].nil?
       query_params[:'date_attr'] = opts[:'date_attr'] if !opts[:'date_attr'].nil?
+      query_params[:'sort'] = opts[:'sort'] if !opts[:'sort'].nil?
+      query_params[:'limit'] = opts[:'limit'] if !opts[:'limit'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -411,6 +1022,254 @@ module Nodeum
       data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: StatisticsApi#statistics_by_user_owner\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # Get statistics about storages, grouped by types
+    # **API Key Scope**: statistics / storages
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
+    # @return [StorageFacet]
+    def statistics_storage(opts = {})
+      data, _status_code, _headers = statistics_storage_with_http_info(opts)
+      data
+    end
+
+    # Get statistics about storages, grouped by types
+    # **API Key Scope**: statistics / storages
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
+    # @return [Array<(StorageFacet, Integer, Hash)>] StorageFacet data, response status code and response headers
+    def statistics_storage_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: StatisticsApi.statistics_storage ...'
+      end
+      # resource path
+      local_var_path = '/statistics/storage'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'q'] = opts[:'q'] if !opts[:'q'].nil?
+      query_params[:'fq'] = @api_client.build_collection_param(opts[:'fq'], :pipe) if !opts[:'fq'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:body] 
+
+      # return_type
+      return_type = opts[:return_type] || 'StorageFacet' 
+
+      # auth_names
+      auth_names = opts[:auth_names] || ['BasicAuth', 'BearerAuth']
+
+      new_options = opts.merge(
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: StatisticsApi#statistics_storage\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # Get statistics about tasks executions, grouped by status
+    # **API Key Scope**: statistics / task_by_status
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
+    # @return [ByTaskStatusFacet]
+    def statistics_task_by_status(opts = {})
+      data, _status_code, _headers = statistics_task_by_status_with_http_info(opts)
+      data
+    end
+
+    # Get statistics about tasks executions, grouped by status
+    # **API Key Scope**: statistics / task_by_status
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
+    # @return [Array<(ByTaskStatusFacet, Integer, Hash)>] ByTaskStatusFacet data, response status code and response headers
+    def statistics_task_by_status_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: StatisticsApi.statistics_task_by_status ...'
+      end
+      # resource path
+      local_var_path = '/statistics/task_by_status'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'q'] = opts[:'q'] if !opts[:'q'].nil?
+      query_params[:'fq'] = @api_client.build_collection_param(opts[:'fq'], :pipe) if !opts[:'fq'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:body] 
+
+      # return_type
+      return_type = opts[:return_type] || 'ByTaskStatusFacet' 
+
+      # auth_names
+      auth_names = opts[:auth_names] || ['BasicAuth', 'BearerAuth']
+
+      new_options = opts.merge(
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: StatisticsApi#statistics_task_by_status\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # Get statistics about tasks executions, grouped by source and destination
+    # **API Key Scope**: statistics / task_by_storage
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
+    # @return [ByTaskStorageFacet]
+    def statistics_task_by_storage(opts = {})
+      data, _status_code, _headers = statistics_task_by_storage_with_http_info(opts)
+      data
+    end
+
+    # Get statistics about tasks executions, grouped by source and destination
+    # **API Key Scope**: statistics / task_by_storage
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
+    # @return [Array<(ByTaskStorageFacet, Integer, Hash)>] ByTaskStorageFacet data, response status code and response headers
+    def statistics_task_by_storage_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: StatisticsApi.statistics_task_by_storage ...'
+      end
+      # resource path
+      local_var_path = '/statistics/task_by_storage'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'q'] = opts[:'q'] if !opts[:'q'].nil?
+      query_params[:'fq'] = @api_client.build_collection_param(opts[:'fq'], :pipe) if !opts[:'fq'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:body] 
+
+      # return_type
+      return_type = opts[:return_type] || 'ByTaskStorageFacet' 
+
+      # auth_names
+      auth_names = opts[:auth_names] || ['BasicAuth', 'BearerAuth']
+
+      new_options = opts.merge(
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: StatisticsApi#statistics_task_by_storage\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # Get statistics about tasks executions, grouped by workflow
+    # **API Key Scope**: statistics / task_by_workflow
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
+    # @return [ByTaskWorkflowFacet]
+    def statistics_task_by_workflow(opts = {})
+      data, _status_code, _headers = statistics_task_by_workflow_with_http_info(opts)
+      data
+    end
+
+    # Get statistics about tasks executions, grouped by workflow
+    # **API Key Scope**: statistics / task_by_workflow
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
+    # @return [Array<(ByTaskWorkflowFacet, Integer, Hash)>] ByTaskWorkflowFacet data, response status code and response headers
+    def statistics_task_by_workflow_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: StatisticsApi.statistics_task_by_workflow ...'
+      end
+      # resource path
+      local_var_path = '/statistics/task_by_workflow'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'q'] = opts[:'q'] if !opts[:'q'].nil?
+      query_params[:'fq'] = @api_client.build_collection_param(opts[:'fq'], :pipe) if !opts[:'fq'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:body] 
+
+      # return_type
+      return_type = opts[:return_type] || 'ByTaskWorkflowFacet' 
+
+      # auth_names
+      auth_names = opts[:auth_names] || ['BasicAuth', 'BearerAuth']
+
+      new_options = opts.merge(
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: StatisticsApi#statistics_task_by_workflow\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end

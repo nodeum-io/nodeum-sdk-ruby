@@ -14,19 +14,19 @@ require 'date'
 
 module Nodeum
   class ByUserOwnerFacet < FileFacet
-    attr_accessor :user_owner_id
+    attr_accessor :user_owner_id_l
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'user_owner_id' => :'user_owner_id'
+        :'user_owner_id_l' => :'user_owner_id_l'
       }
     end
 
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'user_owner_id' => :'ByDateFacetBuckets'
+        :'user_owner_id_l' => :'ByDateFacetBuckets'
       }
     end
 
@@ -62,8 +62,8 @@ module Nodeum
       # call parent's initialize
       super(attributes)
 
-      if attributes.key?(:'user_owner_id')
-        self.user_owner_id = attributes[:'user_owner_id']
+      if attributes.key?(:'user_owner_id_l')
+        self.user_owner_id_l = attributes[:'user_owner_id_l']
       end
     end
 
@@ -85,7 +85,7 @@ module Nodeum
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          user_owner_id == o.user_owner_id && super(o)
+          user_owner_id_l == o.user_owner_id_l && super(o)
     end
 
     # @see the `==` method
@@ -97,7 +97,7 @@ module Nodeum
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [user_owner_id].hash
+      [user_owner_id_l].hash
     end
 
     # Builds the object from hash

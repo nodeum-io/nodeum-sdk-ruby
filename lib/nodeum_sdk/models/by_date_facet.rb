@@ -16,7 +16,11 @@ module Nodeum
   class ByDateFacet
     attr_accessor :count
 
+    attr_accessor :files_count
+
     attr_accessor :file_size_sum
+
+    attr_accessor :cost
 
     attr_accessor :in_cache
 
@@ -38,7 +42,9 @@ module Nodeum
     def self.attribute_map
       {
         :'count' => :'count',
+        :'files_count' => :'files_count',
         :'file_size_sum' => :'file_size_sum',
+        :'cost' => :'cost',
         :'in_cache' => :'in_cache',
         :'less_1_week' => :'less_1_week',
         :'less_1_month' => :'less_1_month',
@@ -54,7 +60,9 @@ module Nodeum
     def self.openapi_types
       {
         :'count' => :'Integer',
+        :'files_count' => :'Integer',
         :'file_size_sum' => :'Integer',
+        :'cost' => :'Float',
         :'in_cache' => :'FileFacet',
         :'less_1_week' => :'FileFacet',
         :'less_1_month' => :'FileFacet',
@@ -99,8 +107,16 @@ module Nodeum
         self.count = attributes[:'count']
       end
 
+      if attributes.key?(:'files_count')
+        self.files_count = attributes[:'files_count']
+      end
+
       if attributes.key?(:'file_size_sum')
         self.file_size_sum = attributes[:'file_size_sum']
+      end
+
+      if attributes.key?(:'cost')
+        self.cost = attributes[:'cost']
       end
 
       if attributes.key?(:'in_cache')
@@ -155,7 +171,9 @@ module Nodeum
       return true if self.equal?(o)
       self.class == o.class &&
           count == o.count &&
+          files_count == o.files_count &&
           file_size_sum == o.file_size_sum &&
+          cost == o.cost &&
           in_cache == o.in_cache &&
           less_1_week == o.less_1_week &&
           less_1_month == o.less_1_month &&
@@ -175,7 +193,7 @@ module Nodeum
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [count, file_size_sum, in_cache, less_1_week, less_1_month, less_3_months, less_6_months, less_1_year, less_2_years, more_2_years].hash
+      [count, files_count, file_size_sum, cost, in_cache, less_1_week, less_1_month, less_3_months, less_6_months, less_1_year, less_2_years, more_2_years].hash
     end
 
     # Builds the object from hash

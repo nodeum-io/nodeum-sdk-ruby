@@ -4,16 +4,18 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**count** | **Integer** |  | [optional] 
+**files_count** | **Integer** |  | [optional] 
 **file_size_sum** | **Integer** |  | [optional] 
+**cost** | **Float** |  | [optional] 
 
 ## Code Sample
 
 ```ruby
 require 'Nodeum'
 
-instance = Nodeum::FileFacet.new(count: null,
-                                 file_size_sum: null)
+instance = Nodeum::FileFacet.new(files_count: null,
+                                 file_size_sum: null,
+                                 cost: null)
 ```
 
 

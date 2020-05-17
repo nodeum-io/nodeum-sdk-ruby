@@ -4,14 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**secondary_name** | [**BySecondaryBuckets**](BySecondaryBuckets.md) |  | [optional] 
+**sec_pool_name_s** | [**ByDateFacetBuckets**](ByDateFacetBuckets.md) |  | [optional] 
 
 ## Code Sample
 
 ```ruby
 require 'Nodeum'
 
-instance = Nodeum::BySecondaryTypeFacetAllOf.new(secondary_name: null)
+instance = Nodeum::BySecondaryTypeFacetAllOf.new(sec_pool_name_s: null)
 ```
 
 

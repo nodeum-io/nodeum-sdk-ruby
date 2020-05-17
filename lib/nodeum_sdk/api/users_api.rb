@@ -83,6 +83,70 @@ module Nodeum
       return data, status_code, headers
     end
 
+    # Creates a new configuration value for current user.
+    # **API Key Scope**: configurations / create
+    # @param configuration_body [UserConfiguration] 
+    # @param [Hash] opts the optional parameters
+    # @return [UserConfiguration]
+    def create_configuration(configuration_body, opts = {})
+      data, _status_code, _headers = create_configuration_with_http_info(configuration_body, opts)
+      data
+    end
+
+    # Creates a new configuration value for current user.
+    # **API Key Scope**: configurations / create
+    # @param configuration_body [UserConfiguration] 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(UserConfiguration, Integer, Hash)>] UserConfiguration data, response status code and response headers
+    def create_configuration_with_http_info(configuration_body, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: UsersApi.create_configuration ...'
+      end
+      # verify the required parameter 'configuration_body' is set
+      if @api_client.config.client_side_validation && configuration_body.nil?
+        fail ArgumentError, "Missing the required parameter 'configuration_body' when calling UsersApi.create_configuration"
+      end
+      # resource path
+      local_var_path = '/users/me/configurations'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
+      # HTTP header 'Content-Type'
+      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json'])
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:body] || @api_client.object_to_http_body(configuration_body) 
+
+      # return_type
+      return_type = opts[:return_type] || 'UserConfiguration' 
+
+      # auth_names
+      auth_names = opts[:auth_names] || ['BasicAuth', 'BearerAuth']
+
+      new_options = opts.merge(
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: UsersApi#create_configuration\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # Destroys a specific API Key.
     # **API Key Scope**: api_keys / destroy
     # @param api_key_id [Integer] Numeric ID of API Key.
@@ -139,6 +203,66 @@ module Nodeum
       data, status_code, headers = @api_client.call_api(:DELETE, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: UsersApi#destroy_api_key\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # Destroys a specific configuration value.
+    # **API Key Scope**: configurations / destroy
+    # @param configuration_id [String] Numeric ID, or key of configuration.
+    # @param [Hash] opts the optional parameters
+    # @return [nil]
+    def destroy_configuration(configuration_id, opts = {})
+      destroy_configuration_with_http_info(configuration_id, opts)
+      nil
+    end
+
+    # Destroys a specific configuration value.
+    # **API Key Scope**: configurations / destroy
+    # @param configuration_id [String] Numeric ID, or key of configuration.
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
+    def destroy_configuration_with_http_info(configuration_id, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: UsersApi.destroy_configuration ...'
+      end
+      # verify the required parameter 'configuration_id' is set
+      if @api_client.config.client_side_validation && configuration_id.nil?
+        fail ArgumentError, "Missing the required parameter 'configuration_id' when calling UsersApi.destroy_configuration"
+      end
+      # resource path
+      local_var_path = '/users/me/configurations/{configuration_id}'.sub('{' + 'configuration_id' + '}', CGI.escape(configuration_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:body] 
+
+      # return_type
+      return_type = opts[:return_type] 
+
+      # auth_names
+      auth_names = opts[:auth_names] || ['BasicAuth', 'BearerAuth']
+
+      new_options = opts.merge(
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:DELETE, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: UsersApi#destroy_configuration\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end
@@ -201,6 +325,68 @@ module Nodeum
       data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: UsersApi#index_api_keys\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # Lists all configurations of current user.
+    # **API Key Scope**: configurations / index
+    # @param [Hash] opts the optional parameters
+    # @option opts [Integer] :limit The number of items to display for pagination.
+    # @option opts [Integer] :offset The number of items to skip for pagination.
+    # @return [UserConfigurationCollection]
+    def index_configurations(opts = {})
+      data, _status_code, _headers = index_configurations_with_http_info(opts)
+      data
+    end
+
+    # Lists all configurations of current user.
+    # **API Key Scope**: configurations / index
+    # @param [Hash] opts the optional parameters
+    # @option opts [Integer] :limit The number of items to display for pagination.
+    # @option opts [Integer] :offset The number of items to skip for pagination.
+    # @return [Array<(UserConfigurationCollection, Integer, Hash)>] UserConfigurationCollection data, response status code and response headers
+    def index_configurations_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: UsersApi.index_configurations ...'
+      end
+      # resource path
+      local_var_path = '/users/me/configurations'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'limit'] = opts[:'limit'] if !opts[:'limit'].nil?
+      query_params[:'offset'] = opts[:'offset'] if !opts[:'offset'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:body] 
+
+      # return_type
+      return_type = opts[:return_type] || 'UserConfigurationCollection' 
+
+      # auth_names
+      auth_names = opts[:auth_names] || ['BasicAuth', 'BearerAuth']
+
+      new_options = opts.merge(
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: UsersApi#index_configurations\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end
@@ -379,6 +565,68 @@ module Nodeum
       return data, status_code, headers
     end
 
+    # Displays a specific configuration value.
+    # **API Key Scope**: configurations / show
+    # @param configuration_id [String] Numeric ID, or key of configuration.
+    # @param [Hash] opts the optional parameters
+    # @return [UserConfiguration]
+    def show_configuration(configuration_id, opts = {})
+      data, _status_code, _headers = show_configuration_with_http_info(configuration_id, opts)
+      data
+    end
+
+    # Displays a specific configuration value.
+    # **API Key Scope**: configurations / show
+    # @param configuration_id [String] Numeric ID, or key of configuration.
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(UserConfiguration, Integer, Hash)>] UserConfiguration data, response status code and response headers
+    def show_configuration_with_http_info(configuration_id, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: UsersApi.show_configuration ...'
+      end
+      # verify the required parameter 'configuration_id' is set
+      if @api_client.config.client_side_validation && configuration_id.nil?
+        fail ArgumentError, "Missing the required parameter 'configuration_id' when calling UsersApi.show_configuration"
+      end
+      # resource path
+      local_var_path = '/users/me/configurations/{configuration_id}'.sub('{' + 'configuration_id' + '}', CGI.escape(configuration_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:body] 
+
+      # return_type
+      return_type = opts[:return_type] || 'UserConfiguration' 
+
+      # auth_names
+      auth_names = opts[:auth_names] || ['BasicAuth', 'BearerAuth']
+
+      new_options = opts.merge(
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: UsersApi#show_configuration\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # Updates a specific API Key.
     # **API Key Scope**: api_keys / update
     # @param api_key_id [Integer] Numeric ID of API Key.
@@ -445,6 +693,76 @@ module Nodeum
       data, status_code, headers = @api_client.call_api(:PUT, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: UsersApi#update_api_key\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # Updates a specific configuration value.
+    # **API Key Scope**: configurations / update
+    # @param configuration_id [String] Numeric ID, or key of configuration.
+    # @param configuration_body [UserConfiguration] 
+    # @param [Hash] opts the optional parameters
+    # @return [UserConfiguration]
+    def update_configuration(configuration_id, configuration_body, opts = {})
+      data, _status_code, _headers = update_configuration_with_http_info(configuration_id, configuration_body, opts)
+      data
+    end
+
+    # Updates a specific configuration value.
+    # **API Key Scope**: configurations / update
+    # @param configuration_id [String] Numeric ID, or key of configuration.
+    # @param configuration_body [UserConfiguration] 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(UserConfiguration, Integer, Hash)>] UserConfiguration data, response status code and response headers
+    def update_configuration_with_http_info(configuration_id, configuration_body, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: UsersApi.update_configuration ...'
+      end
+      # verify the required parameter 'configuration_id' is set
+      if @api_client.config.client_side_validation && configuration_id.nil?
+        fail ArgumentError, "Missing the required parameter 'configuration_id' when calling UsersApi.update_configuration"
+      end
+      # verify the required parameter 'configuration_body' is set
+      if @api_client.config.client_side_validation && configuration_body.nil?
+        fail ArgumentError, "Missing the required parameter 'configuration_body' when calling UsersApi.update_configuration"
+      end
+      # resource path
+      local_var_path = '/users/me/configurations/{configuration_id}'.sub('{' + 'configuration_id' + '}', CGI.escape(configuration_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
+      # HTTP header 'Content-Type'
+      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json'])
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:body] || @api_client.object_to_http_body(configuration_body) 
+
+      # return_type
+      return_type = opts[:return_type] || 'UserConfiguration' 
+
+      # auth_names
+      auth_names = opts[:auth_names] || ['BasicAuth', 'BearerAuth']
+
+      new_options = opts.merge(
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:PUT, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: UsersApi#update_configuration\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end

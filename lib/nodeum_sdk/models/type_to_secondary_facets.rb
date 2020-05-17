@@ -22,6 +22,8 @@ module Nodeum
 
     attr_accessor :on_secondary_tape
 
+    attr_accessor :on_any_secondary
+
     attr_accessor :on_no_secondary
 
     # Attribute mapping from ruby-style variable name to JSON key.
@@ -31,6 +33,7 @@ module Nodeum
         :'on_secondary_public_cloud' => :'on_secondary_public_cloud',
         :'on_secondary_object_cloud' => :'on_secondary_object_cloud',
         :'on_secondary_tape' => :'on_secondary_tape',
+        :'on_any_secondary' => :'on_any_secondary',
         :'on_no_secondary' => :'on_no_secondary'
       }
     end
@@ -42,6 +45,7 @@ module Nodeum
         :'on_secondary_public_cloud' => :'BySecondaryTypeFacet',
         :'on_secondary_object_cloud' => :'BySecondaryTypeFacet',
         :'on_secondary_tape' => :'BySecondaryTypeFacet',
+        :'on_any_secondary' => :'BySecondaryTypeFacet',
         :'on_no_secondary' => :'BySecondaryTypeFacet'
       }
     end
@@ -83,6 +87,10 @@ module Nodeum
         self.on_secondary_tape = attributes[:'on_secondary_tape']
       end
 
+      if attributes.key?(:'on_any_secondary')
+        self.on_any_secondary = attributes[:'on_any_secondary']
+      end
+
       if attributes.key?(:'on_no_secondary')
         self.on_no_secondary = attributes[:'on_no_secondary']
       end
@@ -110,6 +118,7 @@ module Nodeum
           on_secondary_public_cloud == o.on_secondary_public_cloud &&
           on_secondary_object_cloud == o.on_secondary_object_cloud &&
           on_secondary_tape == o.on_secondary_tape &&
+          on_any_secondary == o.on_any_secondary &&
           on_no_secondary == o.on_no_secondary
     end
 
@@ -122,7 +131,7 @@ module Nodeum
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [on_secondary_nas, on_secondary_public_cloud, on_secondary_object_cloud, on_secondary_tape, on_no_secondary].hash
+      [on_secondary_nas, on_secondary_public_cloud, on_secondary_object_cloud, on_secondary_tape, on_any_secondary, on_no_secondary].hash
     end
 
     # Builds the object from hash

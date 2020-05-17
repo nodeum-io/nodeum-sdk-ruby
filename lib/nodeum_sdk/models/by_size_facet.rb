@@ -16,7 +16,11 @@ module Nodeum
   class BySizeFacet
     attr_accessor :count
 
+    attr_accessor :files_count
+
     attr_accessor :file_size_sum
+
+    attr_accessor :cost
 
     attr_accessor :less_100_kb
 
@@ -38,7 +42,9 @@ module Nodeum
     def self.attribute_map
       {
         :'count' => :'count',
+        :'files_count' => :'files_count',
         :'file_size_sum' => :'file_size_sum',
+        :'cost' => :'cost',
         :'less_100_kb' => :'less_100_kb',
         :'less_1_mb' => :'less_1_mb',
         :'less_10_mb' => :'less_10_mb',
@@ -54,7 +60,9 @@ module Nodeum
     def self.openapi_types
       {
         :'count' => :'Integer',
+        :'files_count' => :'Integer',
         :'file_size_sum' => :'Integer',
+        :'cost' => :'Float',
         :'less_100_kb' => :'ByDateFacet',
         :'less_1_mb' => :'ByDateFacet',
         :'less_10_mb' => :'ByDateFacet',
@@ -99,8 +107,16 @@ module Nodeum
         self.count = attributes[:'count']
       end
 
+      if attributes.key?(:'files_count')
+        self.files_count = attributes[:'files_count']
+      end
+
       if attributes.key?(:'file_size_sum')
         self.file_size_sum = attributes[:'file_size_sum']
+      end
+
+      if attributes.key?(:'cost')
+        self.cost = attributes[:'cost']
       end
 
       if attributes.key?(:'less_100_kb')
@@ -155,7 +171,9 @@ module Nodeum
       return true if self.equal?(o)
       self.class == o.class &&
           count == o.count &&
+          files_count == o.files_count &&
           file_size_sum == o.file_size_sum &&
+          cost == o.cost &&
           less_100_kb == o.less_100_kb &&
           less_1_mb == o.less_1_mb &&
           less_10_mb == o.less_10_mb &&
@@ -175,7 +193,7 @@ module Nodeum
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [count, file_size_sum, less_100_kb, less_1_mb, less_10_mb, less_100_mb, less_1_gb, less_10_gb, less_100_gb, more_100_gb].hash
+      [count, files_count, file_size_sum, cost, less_100_kb, less_1_mb, less_10_mb, less_100_mb, less_1_gb, less_10_gb, less_100_gb, more_100_gb].hash
     end
 
     # Builds the object from hash

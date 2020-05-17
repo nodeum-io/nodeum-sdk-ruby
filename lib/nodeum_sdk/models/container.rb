@@ -26,9 +26,13 @@ module Nodeum
 
     attr_accessor :stat_total_files
 
+    attr_accessor :only_on_cache_file_count
+
     attr_accessor :stat_total_size
 
     attr_accessor :stat_size_on_cache
+
+    attr_accessor :only_on_cache_file_size_sum
 
     attr_accessor :guest_right
 
@@ -65,8 +69,10 @@ module Nodeum
         :'quota_total_size' => :'quota_total_size',
         :'quota_on_cache' => :'quota_on_cache',
         :'stat_total_files' => :'stat_total_files',
+        :'only_on_cache_file_count' => :'only_on_cache_file_count',
         :'stat_total_size' => :'stat_total_size',
         :'stat_size_on_cache' => :'stat_size_on_cache',
+        :'only_on_cache_file_size_sum' => :'only_on_cache_file_size_sum',
         :'guest_right' => :'guest_right',
         :'last_update' => :'last_update'
       }
@@ -81,8 +87,10 @@ module Nodeum
         :'quota_total_size' => :'Integer',
         :'quota_on_cache' => :'Integer',
         :'stat_total_files' => :'Integer',
+        :'only_on_cache_file_count' => :'Integer',
         :'stat_total_size' => :'Integer',
         :'stat_size_on_cache' => :'Integer',
+        :'only_on_cache_file_size_sum' => :'Integer',
         :'guest_right' => :'String',
         :'last_update' => :'String'
       }
@@ -133,12 +141,20 @@ module Nodeum
         self.stat_total_files = attributes[:'stat_total_files']
       end
 
+      if attributes.key?(:'only_on_cache_file_count')
+        self.only_on_cache_file_count = attributes[:'only_on_cache_file_count']
+      end
+
       if attributes.key?(:'stat_total_size')
         self.stat_total_size = attributes[:'stat_total_size']
       end
 
       if attributes.key?(:'stat_size_on_cache')
         self.stat_size_on_cache = attributes[:'stat_size_on_cache']
+      end
+
+      if attributes.key?(:'only_on_cache_file_size_sum')
+        self.only_on_cache_file_size_sum = attributes[:'only_on_cache_file_size_sum']
       end
 
       if attributes.key?(:'guest_right')
@@ -186,8 +202,10 @@ module Nodeum
           quota_total_size == o.quota_total_size &&
           quota_on_cache == o.quota_on_cache &&
           stat_total_files == o.stat_total_files &&
+          only_on_cache_file_count == o.only_on_cache_file_count &&
           stat_total_size == o.stat_total_size &&
           stat_size_on_cache == o.stat_size_on_cache &&
+          only_on_cache_file_size_sum == o.only_on_cache_file_size_sum &&
           guest_right == o.guest_right &&
           last_update == o.last_update
     end
@@ -201,7 +219,7 @@ module Nodeum
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, name, comment, quota_total_size, quota_on_cache, stat_total_files, stat_total_size, stat_size_on_cache, guest_right, last_update].hash
+      [id, name, comment, quota_total_size, quota_on_cache, stat_total_files, only_on_cache_file_count, stat_total_size, stat_size_on_cache, only_on_cache_file_size_sum, guest_right, last_update].hash
     end
 
     # Builds the object from hash

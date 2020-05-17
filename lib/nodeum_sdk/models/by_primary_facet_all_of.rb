@@ -14,19 +14,19 @@ require 'date'
 
 module Nodeum
   class ByPrimaryFacetAllOf
-    attr_accessor :primary_name
+    attr_accessor :prim_name_s
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'primary_name' => :'primary_name'
+        :'prim_name_s' => :'prim_name_s'
       }
     end
 
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'primary_name' => :'ByDateFacetBuckets'
+        :'prim_name_s' => :'ByDateFacetBuckets'
       }
     end
 
@@ -51,8 +51,8 @@ module Nodeum
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'primary_name')
-        self.primary_name = attributes[:'primary_name']
+      if attributes.key?(:'prim_name_s')
+        self.prim_name_s = attributes[:'prim_name_s']
       end
     end
 
@@ -74,7 +74,7 @@ module Nodeum
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          primary_name == o.primary_name
+          prim_name_s == o.prim_name_s
     end
 
     # @see the `==` method
@@ -86,7 +86,7 @@ module Nodeum
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [primary_name].hash
+      [prim_name_s].hash
     end
 
     # Builds the object from hash
