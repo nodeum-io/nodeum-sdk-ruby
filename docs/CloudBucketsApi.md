@@ -18,6 +18,7 @@ Method | HTTP request | Description
 [**update_cloud_bucket**](CloudBucketsApi.md#update_cloud_bucket) | **PUT** /cloud_buckets/{cloud_bucket_id} | Updates a specific cloud bucket.
 [**update_cloud_bucket_by_cloud_connector**](CloudBucketsApi.md#update_cloud_bucket_by_cloud_connector) | **PUT** /cloud_connectors/{cloud_connector_id}/cloud_buckets/{cloud_bucket_id} | Updates a specific cloud bucket.
 [**update_cloud_bucket_by_pool**](CloudBucketsApi.md#update_cloud_bucket_by_pool) | **PUT** /pools/{pool_id}/cloud_buckets/{cloud_bucket_id} | Updates a specific cloud bucket.
+[**update_config_file_cloud_bucket**](CloudBucketsApi.md#update_config_file_cloud_bucket) | **PUT** /cloud_buckets/{cloud_bucket_id}/config_file | Updates a specific cloud bucket.
 
 
 
@@ -904,5 +905,65 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
+- **Accept**: application/json
+
+
+## update_config_file_cloud_bucket
+
+> String update_config_file_cloud_bucket(cloud_bucket_id, config_file)
+
+Updates a specific cloud bucket.
+
+**API Key Scope**: cloud_buckets / update_config_file
+
+### Example
+
+```ruby
+# load the gem
+require 'nodeum_sdk'
+# setup authorization
+Nodeum.configure do |config|
+  # Configure HTTP basic authorization: BasicAuth
+  config.username = 'YOUR USERNAME'
+  config.password = 'YOUR PASSWORD'
+
+  # Configure API key authorization: BearerAuth
+  config.api_key['Authorization'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['Authorization'] = 'Bearer'
+end
+
+api_instance = Nodeum::CloudBucketsApi.new
+cloud_bucket_id = 'cloud_bucket_id_example' # String | Numeric ID or name of cloud bucket.
+config_file = File.new('/path/to/file') # File | Config file to upload.
+
+begin
+  #Updates a specific cloud bucket.
+  result = api_instance.update_config_file_cloud_bucket(cloud_bucket_id, config_file)
+  p result
+rescue Nodeum::ApiError => e
+  puts "Exception when calling CloudBucketsApi->update_config_file_cloud_bucket: #{e}"
+end
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **cloud_bucket_id** | **String**| Numeric ID or name of cloud bucket. | 
+ **config_file** | **File**| Config file to upload. | 
+
+### Return type
+
+**String**
+
+### Authorization
+
+[BasicAuth](../README.md#BasicAuth), [BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: multipart/form-data
 - **Accept**: application/json
 

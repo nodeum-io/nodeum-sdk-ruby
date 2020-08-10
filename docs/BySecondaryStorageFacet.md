@@ -4,10 +4,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**count** | **Integer** |  | [optional] 
-**files_count** | **Integer** |  | [optional] 
-**file_size_sum** | **Integer** |  | [optional] 
-**cost** | **Float** |  | [optional] 
+**count** | **Integer** |  | [optional] [readonly] 
+**files_count** | **Integer** |  | [optional] [readonly] 
+**file_size_sum** | **Integer** |  | [optional] [readonly] 
+**cost** | **Float** |  | [optional] [readonly] 
 **on_secondary_nas** | [**BySecondaryTypeFacet**](BySecondaryTypeFacet.md) |  | [optional] 
 **on_secondary_public_cloud** | [**BySecondaryTypeFacet**](BySecondaryTypeFacet.md) |  | [optional] 
 **on_secondary_object_cloud** | [**BySecondaryTypeFacet**](BySecondaryTypeFacet.md) |  | [optional] 

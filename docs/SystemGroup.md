@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**name** | **String** |  | [optional] 
-**gid** | **Integer** |  | [optional] 
-**users** | **Array&lt;String&gt;** |  | [optional] 
+**name** | **String** |  | [optional] [readonly] 
+**gid** | **Integer** |  | [optional] [readonly] 
+**users** | **Array&lt;String&gt;** |  | [optional] [readonly] 
 
 ## Code Sample
 

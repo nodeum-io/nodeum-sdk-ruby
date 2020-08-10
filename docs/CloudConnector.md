@@ -12,6 +12,7 @@ Name | Type | Description | Notes
 **region** | **String** |  | [optional] 
 **access_key** | **String** |  | [optional] 
 **secret_key** | **String** |  | [optional] 
+**options** | **String** | S3FS mounting options, separated by comma | [optional] 
 
 ## Code Sample
 
@@ -25,7 +26,8 @@ instance = Nodeum::CloudConnector.new(id: null,
                                  provider: null,
                                  region: null,
                                  access_key: null,
-                                 secret_key: null)
+                                 secret_key: null,
+                                 options: null)
 ```
 
 

@@ -7,6 +7,7 @@ Method | HTTP request | Description
 [**statistics_by_date**](StatisticsApi.md#statistics_by_date) | **GET** /statistics/by_date | Get statistics about files, grouped by date
 [**statistics_by_file_extension**](StatisticsApi.md#statistics_by_file_extension) | **GET** /statistics/by_file_extension | Get statistics about files, grouped by file extension
 [**statistics_by_group_owner**](StatisticsApi.md#statistics_by_group_owner) | **GET** /statistics/by_group_owner | Get statistics about files, grouped by owner (group)
+[**statistics_by_metadata**](StatisticsApi.md#statistics_by_metadata) | **GET** /statistics/by_metadata | Get statistics about files, grouped by metadata
 [**statistics_by_primary_cloud**](StatisticsApi.md#statistics_by_primary_cloud) | **GET** /statistics/by_primary_cloud | Get statistics about files, grouped by primary Cloud
 [**statistics_by_primary_name**](StatisticsApi.md#statistics_by_primary_name) | **GET** /statistics/by_primary_name | Get statistics about files, grouped by primary storages
 [**statistics_by_primary_nas**](StatisticsApi.md#statistics_by_primary_nas) | **GET** /statistics/by_primary_nas | Get statistics about files, grouped by primary NAS
@@ -18,6 +19,7 @@ Method | HTTP request | Description
 [**statistics_by_size**](StatisticsApi.md#statistics_by_size) | **GET** /statistics/by_size | Get statistics about files, grouped by size
 [**statistics_by_user_owner**](StatisticsApi.md#statistics_by_user_owner) | **GET** /statistics/by_user_owner | Get statistics about files, grouped by owner (user)
 [**statistics_storage**](StatisticsApi.md#statistics_storage) | **GET** /statistics/storage | Get statistics about storages, grouped by types
+[**statistics_task_by_metadata**](StatisticsApi.md#statistics_task_by_metadata) | **GET** /statistics/task_by_metadata | Get statistics about tasks executions, grouped by metadata
 [**statistics_task_by_status**](StatisticsApi.md#statistics_task_by_status) | **GET** /statistics/task_by_status | Get statistics about tasks executions, grouped by status
 [**statistics_task_by_storage**](StatisticsApi.md#statistics_task_by_storage) | **GET** /statistics/task_by_storage | Get statistics about tasks executions, grouped by source and destination
 [**statistics_task_by_workflow**](StatisticsApi.md#statistics_task_by_workflow) | **GET** /statistics/task_by_workflow | Get statistics about tasks executions, grouped by workflow
@@ -213,6 +215,74 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**ByGroupOwnerFacet**](ByGroupOwnerFacet.md)
+
+### Authorization
+
+[BasicAuth](../README.md#BasicAuth), [BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## statistics_by_metadata
+
+> ByMetadataFacet statistics_by_metadata(opts)
+
+Get statistics about files, grouped by metadata
+
+**API Key Scope**: statistics / by_metadata
+
+### Example
+
+```ruby
+# load the gem
+require 'nodeum_sdk'
+# setup authorization
+Nodeum.configure do |config|
+  # Configure HTTP basic authorization: BasicAuth
+  config.username = 'YOUR USERNAME'
+  config.password = 'YOUR PASSWORD'
+
+  # Configure API key authorization: BearerAuth
+  config.api_key['Authorization'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['Authorization'] = 'Bearer'
+end
+
+api_instance = Nodeum::StatisticsApi.new
+opts = {
+  q: 'q_example', # String | Solr query
+  fq: ['fq_example'], # Array<String> | Solr filter query  Multiple query can be separated by `|`.
+  date_attr: 'date_attr_example', # String | Type of date to facet on
+  sort: 'count', # String | Sort results of facet
+  limit: 10 # Integer | Limit results of facet
+}
+
+begin
+  #Get statistics about files, grouped by metadata
+  result = api_instance.statistics_by_metadata(opts)
+  p result
+rescue Nodeum::ApiError => e
+  puts "Exception when calling StatisticsApi->statistics_by_metadata: #{e}"
+end
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **q** | **String**| Solr query | [optional] 
+ **fq** | [**Array&lt;String&gt;**](String.md)| Solr filter query  Multiple query can be separated by &#x60;|&#x60;. | [optional] 
+ **date_attr** | **String**| Type of date to facet on | [optional] 
+ **sort** | **String**| Sort results of facet | [optional] [default to &#39;count&#39;]
+ **limit** | **Integer**| Limit results of facet | [optional] [default to 10]
+
+### Return type
+
+[**ByMetadataFacet**](ByMetadataFacet.md)
 
 ### Authorization
 
@@ -951,6 +1021,72 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**StorageFacet**](StorageFacet.md)
+
+### Authorization
+
+[BasicAuth](../README.md#BasicAuth), [BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+
+## statistics_task_by_metadata
+
+> ByTaskMetadataFacet statistics_task_by_metadata(opts)
+
+Get statistics about tasks executions, grouped by metadata
+
+**API Key Scope**: statistics / task_by_metadata
+
+### Example
+
+```ruby
+# load the gem
+require 'nodeum_sdk'
+# setup authorization
+Nodeum.configure do |config|
+  # Configure HTTP basic authorization: BasicAuth
+  config.username = 'YOUR USERNAME'
+  config.password = 'YOUR PASSWORD'
+
+  # Configure API key authorization: BearerAuth
+  config.api_key['Authorization'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['Authorization'] = 'Bearer'
+end
+
+api_instance = Nodeum::StatisticsApi.new
+opts = {
+  q: 'q_example', # String | Solr query
+  fq: ['fq_example'], # Array<String> | Solr filter query  Multiple query can be separated by `|`.
+  sort: 'count', # String | Sort results of facet on task
+  limit: 10 # Integer | Limit results of facet
+}
+
+begin
+  #Get statistics about tasks executions, grouped by metadata
+  result = api_instance.statistics_task_by_metadata(opts)
+  p result
+rescue Nodeum::ApiError => e
+  puts "Exception when calling StatisticsApi->statistics_task_by_metadata: #{e}"
+end
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **q** | **String**| Solr query | [optional] 
+ **fq** | [**Array&lt;String&gt;**](String.md)| Solr filter query  Multiple query can be separated by &#x60;|&#x60;. | [optional] 
+ **sort** | **String**| Sort results of facet on task | [optional] [default to &#39;count&#39;]
+ **limit** | **Integer**| Limit results of facet | [optional] [default to 10]
+
+### Return type
+
+[**ByTaskMetadataFacet**](ByTaskMetadataFacet.md)
 
 ### Authorization
 

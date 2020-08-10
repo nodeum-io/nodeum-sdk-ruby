@@ -246,6 +246,85 @@ module Nodeum
       return data, status_code, headers
     end
 
+    # Get statistics about files, grouped by metadata
+    # **API Key Scope**: statistics / by_metadata
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
+    # @option opts [String] :date_attr Type of date to facet on
+    # @option opts [String] :sort Sort results of facet (default to 'count')
+    # @option opts [Integer] :limit Limit results of facet (default to 10)
+    # @return [ByMetadataFacet]
+    def statistics_by_metadata(opts = {})
+      data, _status_code, _headers = statistics_by_metadata_with_http_info(opts)
+      data
+    end
+
+    # Get statistics about files, grouped by metadata
+    # **API Key Scope**: statistics / by_metadata
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
+    # @option opts [String] :date_attr Type of date to facet on
+    # @option opts [String] :sort Sort results of facet
+    # @option opts [Integer] :limit Limit results of facet
+    # @return [Array<(ByMetadataFacet, Integer, Hash)>] ByMetadataFacet data, response status code and response headers
+    def statistics_by_metadata_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: StatisticsApi.statistics_by_metadata ...'
+      end
+      allowable_values = ["file_change_dt", "file_modification_dt", "file_access_dt"]
+      if @api_client.config.client_side_validation && opts[:'date_attr'] && !allowable_values.include?(opts[:'date_attr'])
+        fail ArgumentError, "invalid value for \"date_attr\", must be one of #{allowable_values}"
+      end
+      allowable_values = ["count", "files_count", "file_size_sum", "cost"]
+      if @api_client.config.client_side_validation && opts[:'sort'] && !allowable_values.include?(opts[:'sort'])
+        fail ArgumentError, "invalid value for \"sort\", must be one of #{allowable_values}"
+      end
+      # resource path
+      local_var_path = '/statistics/by_metadata'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'q'] = opts[:'q'] if !opts[:'q'].nil?
+      query_params[:'fq'] = @api_client.build_collection_param(opts[:'fq'], :pipe) if !opts[:'fq'].nil?
+      query_params[:'date_attr'] = opts[:'date_attr'] if !opts[:'date_attr'].nil?
+      query_params[:'sort'] = opts[:'sort'] if !opts[:'sort'].nil?
+      query_params[:'limit'] = opts[:'limit'] if !opts[:'limit'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:body] 
+
+      # return_type
+      return_type = opts[:return_type] || 'ByMetadataFacet' 
+
+      # auth_names
+      auth_names = opts[:auth_names] || ['BasicAuth', 'BearerAuth']
+
+      new_options = opts.merge(
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: StatisticsApi#statistics_by_metadata\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # Get statistics about files, grouped by primary Cloud
     # **API Key Scope**: statistics / by_primary_cloud
     # @param [Hash] opts the optional parameters
@@ -1084,6 +1163,78 @@ module Nodeum
       data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: StatisticsApi#statistics_storage\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # Get statistics about tasks executions, grouped by metadata
+    # **API Key Scope**: statistics / task_by_metadata
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
+    # @option opts [String] :sort Sort results of facet on task (default to 'count')
+    # @option opts [Integer] :limit Limit results of facet (default to 10)
+    # @return [ByTaskMetadataFacet]
+    def statistics_task_by_metadata(opts = {})
+      data, _status_code, _headers = statistics_task_by_metadata_with_http_info(opts)
+      data
+    end
+
+    # Get statistics about tasks executions, grouped by metadata
+    # **API Key Scope**: statistics / task_by_metadata
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :q Solr query
+    # @option opts [Array<String>] :fq Solr filter query  Multiple query can be separated by &#x60;|&#x60;.
+    # @option opts [String] :sort Sort results of facet on task
+    # @option opts [Integer] :limit Limit results of facet
+    # @return [Array<(ByTaskMetadataFacet, Integer, Hash)>] ByTaskMetadataFacet data, response status code and response headers
+    def statistics_task_by_metadata_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: StatisticsApi.statistics_task_by_metadata ...'
+      end
+      allowable_values = ["count", "tasks_count", "to_process_size_sum", "processed_size_sum", "to_process_files_sum", "processed_files_sum", "finalized_files_sum", "bandwidth_avg", "bandwidth_count"]
+      if @api_client.config.client_side_validation && opts[:'sort'] && !allowable_values.include?(opts[:'sort'])
+        fail ArgumentError, "invalid value for \"sort\", must be one of #{allowable_values}"
+      end
+      # resource path
+      local_var_path = '/statistics/task_by_metadata'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'q'] = opts[:'q'] if !opts[:'q'].nil?
+      query_params[:'fq'] = @api_client.build_collection_param(opts[:'fq'], :pipe) if !opts[:'fq'].nil?
+      query_params[:'sort'] = opts[:'sort'] if !opts[:'sort'].nil?
+      query_params[:'limit'] = opts[:'limit'] if !opts[:'limit'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:body] 
+
+      # return_type
+      return_type = opts[:return_type] || 'ByTaskMetadataFacet' 
+
+      # auth_names
+      auth_names = opts[:auth_names] || ['BasicAuth', 'BearerAuth']
+
+      new_options = opts.merge(
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: StatisticsApi#statistics_task_by_metadata\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end

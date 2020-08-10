@@ -4,10 +4,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**count** | **Integer** |  | [optional] 
-**files_count** | **Integer** |  | [optional] 
-**file_size_sum** | **Integer** |  | [optional] 
-**cost** | **Float** |  | [optional] 
+**count** | **Integer** |  | [optional] [readonly] 
+**files_count** | **Integer** |  | [optional] [readonly] 
+**file_size_sum** | **Integer** |  | [optional] [readonly] 
+**cost** | **Float** |  | [optional] [readonly] 
 **in_cache** | [**FileFacet**](FileFacet.md) |  | [optional] 
 **less_1_week** | [**FileFacet**](FileFacet.md) |  | [optional] 
 **less_1_month** | [**FileFacet**](FileFacet.md) |  | [optional] 

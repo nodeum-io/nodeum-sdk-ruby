@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**count** | **Integer** |  | [optional] 
+**count** | **Integer** |  | [optional] [readonly] 
 **pool_type_i** | [**ByTypeFacetBuckets**](ByTypeFacetBuckets.md) |  | [optional] 
 **pool_content_i** | [**ByTypeFacetBuckets**](ByTypeFacetBuckets.md) |  | [optional] 
 

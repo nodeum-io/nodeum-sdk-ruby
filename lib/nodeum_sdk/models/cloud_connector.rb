@@ -30,6 +30,9 @@ module Nodeum
 
     attr_accessor :secret_key
 
+    # S3FS mounting options, separated by comma
+    attr_accessor :options
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -62,7 +65,8 @@ module Nodeum
         :'provider' => :'provider',
         :'region' => :'region',
         :'access_key' => :'access_key',
-        :'secret_key' => :'secret_key'
+        :'secret_key' => :'secret_key',
+        :'options' => :'options'
       }
     end
 
@@ -76,7 +80,8 @@ module Nodeum
         :'provider' => :'String',
         :'region' => :'String',
         :'access_key' => :'String',
-        :'secret_key' => :'String'
+        :'secret_key' => :'String',
+        :'options' => :'String'
       }
     end
 
@@ -132,6 +137,10 @@ module Nodeum
       if attributes.key?(:'secret_key')
         self.secret_key = attributes[:'secret_key']
       end
+
+      if attributes.key?(:'options')
+        self.options = attributes[:'options']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -144,7 +153,7 @@ module Nodeum
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      provider_validator = EnumAttributeValidator.new('String', ["generic_s3", "amazon_aws_s3", "cloudian_hyperstore", "scality_ring", "dell_emc_ecs", "azure", "google_cloud_storage", "openstack_swift"])
+      provider_validator = EnumAttributeValidator.new('String', ["generic_s3", "amazon_aws_s3", "cloudian_hyperstore", "scality_ring", "dell_emc_ecs", "azure", "google_cloud_storage", "openstack_swift", "wasabi"])
       return false unless provider_validator.valid?(@provider)
       true
     end
@@ -152,7 +161,7 @@ module Nodeum
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] provider Object to be assigned
     def provider=(provider)
-      validator = EnumAttributeValidator.new('String', ["generic_s3", "amazon_aws_s3", "cloudian_hyperstore", "scality_ring", "dell_emc_ecs", "azure", "google_cloud_storage", "openstack_swift"])
+      validator = EnumAttributeValidator.new('String', ["generic_s3", "amazon_aws_s3", "cloudian_hyperstore", "scality_ring", "dell_emc_ecs", "azure", "google_cloud_storage", "openstack_swift", "wasabi"])
       unless validator.valid?(provider)
         fail ArgumentError, "invalid value for \"provider\", must be one of #{validator.allowable_values}."
       end
@@ -171,7 +180,8 @@ module Nodeum
           provider == o.provider &&
           region == o.region &&
           access_key == o.access_key &&
-          secret_key == o.secret_key
+          secret_key == o.secret_key &&
+          options == o.options
     end
 
     # @see the `==` method
@@ -183,7 +193,7 @@ module Nodeum
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, name, url, url_proxy, provider, region, access_key, secret_key].hash
+      [id, name, url, url_proxy, provider, region, access_key, secret_key, options].hash
     end
 
     # Builds the object from hash

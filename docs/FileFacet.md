@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**files_count** | **Integer** |  | [optional] 
-**file_size_sum** | **Integer** |  | [optional] 
-**cost** | **Float** |  | [optional] 
+**files_count** | **Integer** |  | [optional] [readonly] 
+**file_size_sum** | **Integer** |  | [optional] [readonly] 
+**cost** | **Float** |  | [optional] [readonly] 
 
 ## Code Sample
 

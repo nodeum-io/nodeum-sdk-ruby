@@ -30,6 +30,9 @@ module Nodeum
 
     attr_accessor :price
 
+    # S3FS mounting options, separated by comma
+    attr_accessor :options
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
@@ -40,7 +43,8 @@ module Nodeum
         :'file_count' => :'file_count',
         :'file_size_sum' => :'file_size_sum',
         :'location' => :'location',
-        :'price' => :'price'
+        :'price' => :'price',
+        :'options' => :'options'
       }
     end
 
@@ -54,7 +58,8 @@ module Nodeum
         :'file_count' => :'Integer',
         :'file_size_sum' => :'Integer',
         :'location' => :'String',
-        :'price' => :'String'
+        :'price' => :'String',
+        :'options' => :'String'
       }
     end
 
@@ -110,6 +115,10 @@ module Nodeum
       if attributes.key?(:'price')
         self.price = attributes[:'price']
       end
+
+      if attributes.key?(:'options')
+        self.options = attributes[:'options']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -137,7 +146,8 @@ module Nodeum
           file_count == o.file_count &&
           file_size_sum == o.file_size_sum &&
           location == o.location &&
-          price == o.price
+          price == o.price &&
+          options == o.options
     end
 
     # @see the `==` method
@@ -149,7 +159,7 @@ module Nodeum
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, cloud_connector_id, pool_id, name, file_count, file_size_sum, location, price].hash
+      [id, cloud_connector_id, pool_id, name, file_count, file_size_sum, location, price, options].hash
     end
 
     # Builds the object from hash

@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **val** | [**Object**](.md) |  | [optional] 
-**count** | **Integer** |  | [optional] 
+**count** | **Integer** |  | [optional] [readonly] 
 
 ## Code Sample
 

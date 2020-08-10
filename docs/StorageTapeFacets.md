@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**count** | **Integer** |  | [optional] 
+**count** | **Integer** |  | [optional] [readonly] 
 **tape_type_i** | [**ByTypeFacetBuckets**](ByTypeFacetBuckets.md) |  | [optional] 
 **tape_library_type_i** | [**ByTypeFacetBuckets**](ByTypeFacetBuckets.md) |  | [optional] 
 **pool_type_i** | [**ByTypeFacetBuckets**](ByTypeFacetBuckets.md) |  | [optional] 

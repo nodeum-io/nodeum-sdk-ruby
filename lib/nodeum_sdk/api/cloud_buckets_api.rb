@@ -1022,5 +1022,76 @@ module Nodeum
       end
       return data, status_code, headers
     end
+
+    # Updates a specific cloud bucket.
+    # **API Key Scope**: cloud_buckets / update_config_file
+    # @param cloud_bucket_id [String] Numeric ID or name of cloud bucket.
+    # @param config_file [File] Config file to upload.
+    # @param [Hash] opts the optional parameters
+    # @return [String]
+    def update_config_file_cloud_bucket(cloud_bucket_id, config_file, opts = {})
+      data, _status_code, _headers = update_config_file_cloud_bucket_with_http_info(cloud_bucket_id, config_file, opts)
+      data
+    end
+
+    # Updates a specific cloud bucket.
+    # **API Key Scope**: cloud_buckets / update_config_file
+    # @param cloud_bucket_id [String] Numeric ID or name of cloud bucket.
+    # @param config_file [File] Config file to upload.
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(String, Integer, Hash)>] String data, response status code and response headers
+    def update_config_file_cloud_bucket_with_http_info(cloud_bucket_id, config_file, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: CloudBucketsApi.update_config_file_cloud_bucket ...'
+      end
+      # verify the required parameter 'cloud_bucket_id' is set
+      if @api_client.config.client_side_validation && cloud_bucket_id.nil?
+        fail ArgumentError, "Missing the required parameter 'cloud_bucket_id' when calling CloudBucketsApi.update_config_file_cloud_bucket"
+      end
+      # verify the required parameter 'config_file' is set
+      if @api_client.config.client_side_validation && config_file.nil?
+        fail ArgumentError, "Missing the required parameter 'config_file' when calling CloudBucketsApi.update_config_file_cloud_bucket"
+      end
+      # resource path
+      local_var_path = '/cloud_buckets/{cloud_bucket_id}/config_file'.sub('{' + 'cloud_bucket_id' + '}', CGI.escape(cloud_bucket_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
+      # HTTP header 'Content-Type'
+      header_params['Content-Type'] = @api_client.select_header_content_type(['multipart/form-data'])
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+      form_params['config_file'] = config_file
+
+      # http body (model)
+      post_body = opts[:body] 
+
+      # return_type
+      return_type = opts[:return_type] || 'String' 
+
+      # auth_names
+      auth_names = opts[:auth_names] || ['BasicAuth', 'BearerAuth']
+
+      new_options = opts.merge(
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:PUT, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: CloudBucketsApi#update_config_file_cloud_bucket\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
   end
 end

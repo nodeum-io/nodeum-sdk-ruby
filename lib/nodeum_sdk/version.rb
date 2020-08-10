@@ -11,5 +11,5 @@ OpenAPI Generator version: 4.3.0
 =end
 
 module Nodeum
-  VERSION = '1.86.0'
+  VERSION = '1.87.0'
 end

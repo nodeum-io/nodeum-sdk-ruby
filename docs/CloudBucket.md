@@ -12,6 +12,7 @@ Name | Type | Description | Notes
 **file_size_sum** | **Integer** |  | [optional] [readonly] 
 **location** | **String** |  | [optional] [readonly] 
 **price** | **String** |  | [optional] 
+**options** | **String** | S3FS mounting options, separated by comma | [optional] 
 
 ## Code Sample
 
@@ -25,7 +26,8 @@ instance = Nodeum::CloudBucket.new(id: null,
                                  file_count: null,
                                  file_size_sum: null,
                                  location: null,
-                                 price: null)
+                                 price: null,
+                                 options: null)
 ```
 
 

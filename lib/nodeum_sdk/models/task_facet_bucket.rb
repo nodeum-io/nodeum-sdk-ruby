@@ -30,6 +30,10 @@ module Nodeum
 
     attr_accessor :bandwidth_avg
 
+    attr_accessor :bandwidth_count
+
+    attr_accessor :tasks_count
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
@@ -40,7 +44,9 @@ module Nodeum
         :'to_process_files_sum' => :'to_process_files_sum',
         :'processed_files_sum' => :'processed_files_sum',
         :'finalized_files_sum' => :'finalized_files_sum',
-        :'bandwidth_avg' => :'bandwidth_avg'
+        :'bandwidth_avg' => :'bandwidth_avg',
+        :'bandwidth_count' => :'bandwidth_count',
+        :'tasks_count' => :'tasks_count'
       }
     end
 
@@ -54,7 +60,9 @@ module Nodeum
         :'to_process_files_sum' => :'Integer',
         :'processed_files_sum' => :'Integer',
         :'finalized_files_sum' => :'Integer',
-        :'bandwidth_avg' => :'Integer'
+        :'bandwidth_avg' => :'Integer',
+        :'bandwidth_count' => :'Integer',
+        :'tasks_count' => :'Integer'
       }
     end
 
@@ -118,6 +126,14 @@ module Nodeum
       if attributes.key?(:'bandwidth_avg')
         self.bandwidth_avg = attributes[:'bandwidth_avg']
       end
+
+      if attributes.key?(:'bandwidth_count')
+        self.bandwidth_count = attributes[:'bandwidth_count']
+      end
+
+      if attributes.key?(:'tasks_count')
+        self.tasks_count = attributes[:'tasks_count']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -145,7 +161,9 @@ module Nodeum
           to_process_files_sum == o.to_process_files_sum &&
           processed_files_sum == o.processed_files_sum &&
           finalized_files_sum == o.finalized_files_sum &&
-          bandwidth_avg == o.bandwidth_avg
+          bandwidth_avg == o.bandwidth_avg &&
+          bandwidth_count == o.bandwidth_count &&
+          tasks_count == o.tasks_count
     end
 
     # @see the `==` method
@@ -157,7 +175,7 @@ module Nodeum
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [val, count, to_process_size_sum, processed_size_sum, to_process_files_sum, processed_files_sum, finalized_files_sum, bandwidth_avg].hash
+      [val, count, to_process_size_sum, processed_size_sum, to_process_files_sum, processed_files_sum, finalized_files_sum, bandwidth_avg, bandwidth_count, tasks_count].hash
     end
 
     # Builds the object from hash
