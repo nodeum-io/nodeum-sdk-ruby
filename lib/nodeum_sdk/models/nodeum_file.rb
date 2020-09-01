@@ -38,6 +38,12 @@ module Nodeum
 
     attr_accessor :gid
 
+    attr_accessor :in_cache
+
+    attr_accessor :offline
+
+    attr_accessor :extern
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -74,7 +80,10 @@ module Nodeum
         :'modification_date' => :'modification_date',
         :'access_date' => :'access_date',
         :'uid' => :'uid',
-        :'gid' => :'gid'
+        :'gid' => :'gid',
+        :'in_cache' => :'in_cache',
+        :'offline' => :'offline',
+        :'extern' => :'extern'
       }
     end
 
@@ -92,7 +101,10 @@ module Nodeum
         :'modification_date' => :'String',
         :'access_date' => :'String',
         :'uid' => :'Integer',
-        :'gid' => :'Integer'
+        :'gid' => :'Integer',
+        :'in_cache' => :'Integer',
+        :'offline' => :'Integer',
+        :'extern' => :'Integer'
       }
     end
 
@@ -164,6 +176,18 @@ module Nodeum
       if attributes.key?(:'gid')
         self.gid = attributes[:'gid']
       end
+
+      if attributes.key?(:'in_cache')
+        self.in_cache = attributes[:'in_cache']
+      end
+
+      if attributes.key?(:'offline')
+        self.offline = attributes[:'offline']
+      end
+
+      if attributes.key?(:'extern')
+        self.extern = attributes[:'extern']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -207,7 +231,10 @@ module Nodeum
           modification_date == o.modification_date &&
           access_date == o.access_date &&
           uid == o.uid &&
-          gid == o.gid
+          gid == o.gid &&
+          in_cache == o.in_cache &&
+          offline == o.offline &&
+          extern == o.extern
     end
 
     # @see the `==` method
@@ -219,7 +246,7 @@ module Nodeum
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, name, parent, primary_id, type, permission, size, change_date, modification_date, access_date, uid, gid].hash
+      [id, name, parent, primary_id, type, permission, size, change_date, modification_date, access_date, uid, gid, in_cache, offline, extern].hash
     end
 
     # Builds the object from hash

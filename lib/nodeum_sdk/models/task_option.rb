@@ -104,7 +104,7 @@ module Nodeum
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      type_validator = EnumAttributeValidator.new('String', ["file_checksum", "reset_file_date", "reset_folder_date", "rename_to", "execution_task_id", "selected_drive", "parallel_processing", "task_id", "full_report", "processing_order", "rehydration_usage_threshold", "rehydration_deleted_files_threshold", "learning_type", "learning_threshold", "tape_to_scratch", "eject_tape_after", "barcodes", "overwrite", "task_template"])
+      type_validator = EnumAttributeValidator.new('String', ["file_checksum", "reset_file_date", "reset_folder_date", "rename_to", "execution_task_id", "selected_drive", "parallel_processing", "task_id", "full_report", "processing_order", "rehydration_usage_threshold", "rehydration_deleted_files_threshold", "learning_type", "learning_threshold", "tape_to_scratch", "eject_tape_after", "barcodes", "overwrite", "soft_erase", "task_template"])
       return false unless type_validator.valid?(@type)
       true
     end
@@ -112,7 +112,7 @@ module Nodeum
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] type Object to be assigned
     def type=(type)
-      validator = EnumAttributeValidator.new('String', ["file_checksum", "reset_file_date", "reset_folder_date", "rename_to", "execution_task_id", "selected_drive", "parallel_processing", "task_id", "full_report", "processing_order", "rehydration_usage_threshold", "rehydration_deleted_files_threshold", "learning_type", "learning_threshold", "tape_to_scratch", "eject_tape_after", "barcodes", "overwrite", "task_template"])
+      validator = EnumAttributeValidator.new('String', ["file_checksum", "reset_file_date", "reset_folder_date", "rename_to", "execution_task_id", "selected_drive", "parallel_processing", "task_id", "full_report", "processing_order", "rehydration_usage_threshold", "rehydration_deleted_files_threshold", "learning_type", "learning_threshold", "tape_to_scratch", "eject_tape_after", "barcodes", "overwrite", "soft_erase", "task_template"])
       unless validator.valid?(type)
         fail ArgumentError, "invalid value for \"type\", must be one of #{validator.allowable_values}."
       end

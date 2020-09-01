@@ -16,6 +16,9 @@ Name | Type | Description | Notes
 **access_date** | **String** |  | [optional] [readonly] 
 **uid** | **Integer** |  | [optional] [readonly] 
 **gid** | **Integer** |  | [optional] [readonly] 
+**in_cache** | **Integer** |  | [optional] [readonly] 
+**offline** | **Integer** |  | [optional] [readonly] 
+**extern** | **Integer** |  | [optional] [readonly] 
 
 ## Code Sample
 
@@ -33,7 +36,10 @@ instance = Nodeum::NodeumFile.new(id: 105,
                                  modification_date: 2018-12-10T15:29:23.000Z,
                                  access_date: 2018-12-10T15:27:51.000Z,
                                  uid: 1000,
-                                 gid: 1000)
+                                 gid: 1000,
+                                 in_cache: 1,
+                                 offline: 1,
+                                 extern: 1)
 ```
 
 

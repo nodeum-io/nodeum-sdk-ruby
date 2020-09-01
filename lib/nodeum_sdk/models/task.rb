@@ -242,7 +242,7 @@ module Nodeum
     def valid?
       workflow_type_validator = EnumAttributeValidator.new('String', ["active_archive", "offline_archive", "data_exchange", "data_migration", "maintenance", "data_enrichment"])
       return false unless workflow_type_validator.valid?(@workflow_type)
-      workflow_action_validator = EnumAttributeValidator.new('String', ["copy", "move", "scan", "rehydratation", "format", "check_consistency", "duplication", "cache_cleaning", "ejection", "get_index", "full_backup", "incremental_backup"])
+      workflow_action_validator = EnumAttributeValidator.new('String', ["copy", "move", "erase", "scan", "rehydratation", "format", "check_consistency", "duplication", "cache_cleaning", "ejection", "get_index", "full_backup", "incremental_backup"])
       return false unless workflow_action_validator.valid?(@workflow_action)
       source_type_validator = EnumAttributeValidator.new('String', ["container", "primary_nas", "secondary_nas", "primary_cloud", "secondary_cloud", "secondary_tape"])
       return false unless source_type_validator.valid?(@source_type)
@@ -270,7 +270,7 @@ module Nodeum
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] workflow_action Object to be assigned
     def workflow_action=(workflow_action)
-      validator = EnumAttributeValidator.new('String', ["copy", "move", "scan", "rehydratation", "format", "check_consistency", "duplication", "cache_cleaning", "ejection", "get_index", "full_backup", "incremental_backup"])
+      validator = EnumAttributeValidator.new('String', ["copy", "move", "erase", "scan", "rehydratation", "format", "check_consistency", "duplication", "cache_cleaning", "ejection", "get_index", "full_backup", "incremental_backup"])
       unless validator.valid?(workflow_action)
         fail ArgumentError, "invalid value for \"workflow_action\", must be one of #{validator.allowable_values}."
       end

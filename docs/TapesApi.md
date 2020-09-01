@@ -4,6 +4,7 @@ All URIs are relative to *http://localhost/api/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**destroy_tape**](TapesApi.md#destroy_tape) | **DELETE** /tapes/{tape_id} | Destroys a specific tape. Only when it&#39;s an orphan.
 [**index_tape_stats**](TapesApi.md#index_tape_stats) | **GET** /tape_stats | List all tape statistics.
 [**index_tapes**](TapesApi.md#index_tapes) | **GET** /tapes | Lists all tapes.
 [**index_tapes_by_pool**](TapesApi.md#index_tapes_by_pool) | **GET** /pools/{pool_id}/tapes | Lists all tapes.
@@ -18,6 +19,63 @@ Method | HTTP request | Description
 [**show_tape_stat_by_pool**](TapesApi.md#show_tape_stat_by_pool) | **GET** /pools/{pool_id}/tapes/{tape_id}/tape_stat | Display statistic for a specific tape.
 [**show_tape_stat_by_tape_library**](TapesApi.md#show_tape_stat_by_tape_library) | **GET** /tape_libraries/{tape_library_id}/tapes/{tape_id}/tape_stat | Display statistic for a specific tape.
 
+
+
+## destroy_tape
+
+> destroy_tape(tape_id)
+
+Destroys a specific tape. Only when it's an orphan.
+
+**API Key Scope**: tapes / destroy
+
+### Example
+
+```ruby
+# load the gem
+require 'nodeum_sdk'
+# setup authorization
+Nodeum.configure do |config|
+  # Configure HTTP basic authorization: BasicAuth
+  config.username = 'YOUR USERNAME'
+  config.password = 'YOUR PASSWORD'
+
+  # Configure API key authorization: BearerAuth
+  config.api_key['Authorization'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['Authorization'] = 'Bearer'
+end
+
+api_instance = Nodeum::TapesApi.new
+tape_id = 'tape_id_example' # String | Numeric ID, or barcode of tape.
+
+begin
+  #Destroys a specific tape. Only when it's an orphan.
+  api_instance.destroy_tape(tape_id)
+rescue Nodeum::ApiError => e
+  puts "Exception when calling TapesApi->destroy_tape: #{e}"
+end
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **tape_id** | **String**| Numeric ID, or barcode of tape. | 
+
+### Return type
+
+nil (empty response body)
+
+### Authorization
+
+[BasicAuth](../README.md#BasicAuth), [BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
 
 ## index_tape_stats

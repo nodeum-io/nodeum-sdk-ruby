@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **type** | **String** |  | [optional] 
 **content** | **String** |  | [optional] 
 **primary_id** | **Integer** |  | [optional] [readonly] 
+**storage_id** | **Integer** | For pool of tapes, used to link to a tape library id | [optional] 
 
 ## Code Sample
 
@@ -21,7 +22,8 @@ instance = Nodeum::Pool.new(id: 6,
                                  comment: ,
                                  type: offline_archive,
                                  content: null,
-                                 primary_id: 100)
+                                 primary_id: 100,
+                                 storage_id: 2)
 ```
 
 

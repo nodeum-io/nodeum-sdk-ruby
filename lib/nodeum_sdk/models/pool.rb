@@ -26,6 +26,9 @@ module Nodeum
 
     attr_accessor :primary_id
 
+    # For pool of tapes, used to link to a tape library id
+    attr_accessor :storage_id
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -56,7 +59,8 @@ module Nodeum
         :'comment' => :'comment',
         :'type' => :'type',
         :'content' => :'content',
-        :'primary_id' => :'primary_id'
+        :'primary_id' => :'primary_id',
+        :'storage_id' => :'storage_id'
       }
     end
 
@@ -68,7 +72,8 @@ module Nodeum
         :'comment' => :'String',
         :'type' => :'String',
         :'content' => :'String',
-        :'primary_id' => :'Integer'
+        :'primary_id' => :'Integer',
+        :'storage_id' => :'Integer'
       }
     end
 
@@ -115,6 +120,10 @@ module Nodeum
 
       if attributes.key?(:'primary_id')
         self.primary_id = attributes[:'primary_id']
+      end
+
+      if attributes.key?(:'storage_id')
+        self.storage_id = attributes[:'storage_id']
       end
     end
 
@@ -165,7 +174,8 @@ module Nodeum
           comment == o.comment &&
           type == o.type &&
           content == o.content &&
-          primary_id == o.primary_id
+          primary_id == o.primary_id &&
+          storage_id == o.storage_id
     end
 
     # @see the `==` method
@@ -177,7 +187,7 @@ module Nodeum
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [id, name, comment, type, content, primary_id].hash
+      [id, name, comment, type, content, primary_id, storage_id].hash
     end
 
     # Builds the object from hash

@@ -19,6 +19,66 @@ module Nodeum
     def initialize(api_client = ApiClient.default)
       @api_client = api_client
     end
+    # Destroys a specific tape. Only when it's an orphan.
+    # **API Key Scope**: tapes / destroy
+    # @param tape_id [String] Numeric ID, or barcode of tape.
+    # @param [Hash] opts the optional parameters
+    # @return [nil]
+    def destroy_tape(tape_id, opts = {})
+      destroy_tape_with_http_info(tape_id, opts)
+      nil
+    end
+
+    # Destroys a specific tape. Only when it&#39;s an orphan.
+    # **API Key Scope**: tapes / destroy
+    # @param tape_id [String] Numeric ID, or barcode of tape.
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
+    def destroy_tape_with_http_info(tape_id, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: TapesApi.destroy_tape ...'
+      end
+      # verify the required parameter 'tape_id' is set
+      if @api_client.config.client_side_validation && tape_id.nil?
+        fail ArgumentError, "Missing the required parameter 'tape_id' when calling TapesApi.destroy_tape"
+      end
+      # resource path
+      local_var_path = '/tapes/{tape_id}'.sub('{' + 'tape_id' + '}', CGI.escape(tape_id.to_s))
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:body] 
+
+      # return_type
+      return_type = opts[:return_type] 
+
+      # auth_names
+      auth_names = opts[:auth_names] || ['BasicAuth', 'BearerAuth']
+
+      new_options = opts.merge(
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:DELETE, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: TapesApi#destroy_tape\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # List all tape statistics.
     # **API Key Scope**: tape_stats / index
     # @param [Hash] opts the optional parameters
